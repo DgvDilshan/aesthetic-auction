@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
+
 :root {
   --font-dmsans: "DM Sans", sans-serif;
   --font-playfair: "Playfair Display", serif;
@@ -106,7 +107,7 @@ body {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 /* Container */
@@ -148,4 +149,52 @@ a {
   .container {
     max-width: 1320px;
   }
+}
+
+.auth-container {
+  position: absolute;
+
+
+}
+
+@media (min-width: 576px) {
+  .auth-container {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .auth-container {
+    width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .auth-container {
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (min-width: 1200px) {
+  .auth-container {
+    width: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+
+.auth-title {
+  color: var(--white-color);
+  margin-bottom: 40px;
+}
+
+.auth-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

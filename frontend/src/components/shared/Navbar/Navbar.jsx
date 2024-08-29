@@ -13,7 +13,7 @@ const Navbar = () => {
     setActiveSidebar(!activeSidebar);
   };
   return (
-    <div className='navbar'>
+    <div className='navbar-wrapper'>
       <div className='top-nav'>
         <div className='container'>
           <div className='top-nav-wrap'>

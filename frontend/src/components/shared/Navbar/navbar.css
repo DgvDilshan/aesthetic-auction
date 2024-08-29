@@ -1,5 +1,5 @@
 @media (min-width: 1400px) and (max-width: 1599px) {
-  .navbar {
+  .navbar-wrapper {
     padding: 0 40px;
   }
 }
@@ -328,6 +328,7 @@
   position: relative;
   z-index: 1;
   transition: all .6s;
+  height: 48px;
 }
 
 @media (min-width: 992px) {

@@ -1,0 +1,10 @@
+.form {
+ background-image: url(/frontend/src/assets/bg.png), linear-gradient(180deg, #0a0a0a, #0a0a0a);
+ background-size: cover;
+ background-repeat: no-repeat;
+ border: 1px solid rgba(var(--title-color-opc), .1);
+ border-radius: 10px;
+ padding: 40px 70px;
+ margin-left: 75px;
+ text-align: center;
+}
