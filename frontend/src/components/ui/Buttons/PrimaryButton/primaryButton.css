@@ -22,7 +22,6 @@
  line-height: 1;
  gap: 10px;
 
-
  span {
   position: absolute;
   display: block;
@@ -44,7 +43,7 @@
  -bs-link-color-rgb: var(--bs-link-hover-color-rgb);
 
  svg {
-  fill: var(--title-color);
+  fill: var(--white-color);
  }
 
  span {

@@ -11,6 +11,11 @@
  }
 }
 
+.navbar-wrapper {
+ position: absolute;
+ width: 100%;
+}
+
 @media (max-width: 1699px) {
  .header-topbar-area {
   padding: 0 50px;
@@ -139,7 +144,6 @@
  align-items: center;
  justify-content: space-between;
  flex-wrap: nowrap;
- border-bottom: 1px solid #eee;
 }
 
 @media (max-width: 576px) {
@@ -235,6 +239,10 @@
  justify-content: end;
  align-items: center;
  gap: 115px;
+
+ .primary-btn {
+  display: none;
+ }
 }
 
 @media (min-width: 1400px) and (max-width:1599px) {
@@ -363,6 +371,10 @@
 
 @media (min-width: 992px) {
  .my-acc-btn {
+  display: flex;
+ }
+
+ .nav-right .primary-btn {
   display: flex;
  }
 }

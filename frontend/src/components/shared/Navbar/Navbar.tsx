@@ -1,7 +1,7 @@
 import { RiUserFill } from '@remixicon/react';
 import { useState } from 'react';
 import './navbar.css';
-import logo from '../../../assets/logo-2.png';
+import logo from '../../../assets/logo-white.png';
 import Sidebar from '../../ui/Sidebar/Sidebar';
 import Search from '../../ui/Search/Search';
 import PrimaryButton from '../../ui/Buttons/PrimaryButton/PrimaryButton';
@@ -9,7 +9,7 @@ import { useAuth } from '../../../context/useAuth';
 
 const Navbar = () => {
   const [activeSidebar, setActiveSidebar] = useState(false);
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -20,8 +20,6 @@ const Navbar = () => {
     e.preventDefault();
     logout();
   };
-
-  const user = localStorage.getItem('user');
 
   return (
     <div className='navbar-wrapper'>
@@ -107,7 +105,7 @@ const Navbar = () => {
             <span></span>
           </div>
 
-          {user ? (
+          {isLoggedIn() ? (
             <>
               <a href='/profile' className='my-acc-btn'>
                 <RiUserFill size={15} color='#fff' />
