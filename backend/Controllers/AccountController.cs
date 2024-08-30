@@ -40,6 +40,7 @@ namespace backend.Controllers
                 {
                     UserName = user.UserName,
                     Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
                     Token = _tokenService.CreateToken(user)
                 }
             );
@@ -56,7 +57,8 @@ namespace backend.Controllers
                 var user = new User
                 {
                     UserName = registerDto.Username,
-                    Email = registerDto.Email
+                    Email = registerDto.Email,
+                    PhoneNumber = registerDto.PhoneNumber
                 };
 
                 var createUser = await _userManager.CreateAsync(user, registerDto.Password);
@@ -72,6 +74,7 @@ namespace backend.Controllers
                             {
                                 UserName = user.UserName,
                                 Email = user.Email,
+                                PhoneNumber = user.PhoneNumber,
                                 Token = _tokenService.CreateToken(user)
                             }
                             );
