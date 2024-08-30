@@ -3,12 +3,13 @@ import { Row } from 'react-bootstrap';
 
 type FormProps = {
   children: React.ReactNode;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-const Form: React.FC<FormProps> = ({ children }) => {
+const Form: React.FC<FormProps> = ({ children, onSubmit }) => {
   return (
     <div className='form'>
-      <form action=''>
+      <form onSubmit={onSubmit}>
         <Row>{children}</Row>
       </form>
     </div>

@@ -198,3 +198,10 @@ a {
   justify-content: center;
   align-items: center;
 }
+
+.error-message {
+  color: var(--bs-danger);
+  font-size: 14px;
+  font-weight: 600;
+  padding-top: 10px;
+}

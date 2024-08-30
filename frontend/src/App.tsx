@@ -3,6 +3,7 @@ import Navbar from './components/shared/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
+import 'react-toastify/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 const App = () => {

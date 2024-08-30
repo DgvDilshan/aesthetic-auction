@@ -5,6 +5,7 @@ type PrimaryButtonProps = {
   text: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   link?: string;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 const PrimaryButton = ({
@@ -12,6 +13,7 @@ const PrimaryButton = ({
   link,
   onClick,
   text,
+  type,
 }: PrimaryButtonProps) => {
   const buttonStyle = `primary-btn ${variant === 'white' ? 'color-white' : ''}`;
   return (
@@ -22,7 +24,7 @@ const PrimaryButton = ({
           <span></span>
         </a>
       ) : (
-        <button className={buttonStyle} onClick={onClick}>
+        <button className={buttonStyle} onClick={onClick} type={type}>
           {text}
           <span></span>
         </button>
