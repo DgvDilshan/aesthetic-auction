@@ -239,13 +239,13 @@
 
 @media (min-width: 1400px) and (max-width:1599px) {
  .nav-right {
-  gap: 40px
+  gap: 30px
  }
 }
 
 @media (max-width: 1399px) {
  .nav-right {
-  gap: 30px
+  gap: 20px
  }
 }
 

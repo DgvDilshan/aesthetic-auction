@@ -4,14 +4,25 @@ import './navbar.css';
 import logo from '../../../assets/logo-2.png';
 import Sidebar from '../../ui/Sidebar/Sidebar';
 import Search from '../../ui/Search/Search';
+import PrimaryButton from '../../ui/Buttons/PrimaryButton/PrimaryButton';
+import { useAuth } from '../../../context/useAuth';
 
 const Navbar = () => {
   const [activeSidebar, setActiveSidebar] = useState(false);
+  const { logout } = useAuth();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setActiveSidebar(!activeSidebar);
   };
+
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    logout();
+  };
+
+  const user = localStorage.getItem('user');
+
   return (
     <div className='navbar-wrapper'>
       <div className='top-nav'>
@@ -96,11 +107,25 @@ const Navbar = () => {
             <span></span>
           </div>
 
-          <a href='' className='my-acc-btn'>
-            <RiUserFill size={15} color='#fff' />
-            My Account
-            <span></span>
-          </a>
+          {user ? (
+            <>
+              <a href='/profile' className='my-acc-btn'>
+                <RiUserFill size={15} color='#fff' />
+                My Account
+                <span></span>
+              </a>
+              <PrimaryButton
+                text='Logout'
+                variant='default'
+                onClick={handleLogout}
+              />
+            </>
+          ) : (
+            <>
+              <PrimaryButton text='Signup' variant='white' link='/signup' />
+              <PrimaryButton text='Login' variant='default' link='/login' />
+            </>
+          )}
         </div>
       </header>
     </div>
