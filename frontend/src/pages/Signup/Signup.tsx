@@ -1,5 +1,5 @@
 import Form from '../../components/ui/Form/Form';
-import Col from 'react-bootstrap/Col';
+import { Col } from 'react-bootstrap';
 import Input from '../../components/ui/Input/Input';
 import PrimaryButton from '../../components/ui/Buttons/PrimaryButton/PrimaryButton';
 

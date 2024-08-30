@@ -1,7 +1,18 @@
 import './primaryButton.css';
-import PropTypes from 'prop-types';
 
-const PrimaryButton = ({ variant, text, onClick, link }) => {
+type PrimaryButtonProps = {
+  variant: 'default' | 'white';
+  text: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  link?: string;
+};
+
+const PrimaryButton = ({
+  variant,
+  link,
+  onClick,
+  text,
+}: PrimaryButtonProps) => {
   const buttonStyle = `primary-btn ${variant === 'white' ? 'color-white' : ''}`;
   return (
     <>
@@ -18,13 +29,6 @@ const PrimaryButton = ({ variant, text, onClick, link }) => {
       )}
     </>
   );
-};
-
-PrimaryButton.propTypes = {
-  variant: PropTypes.oneOf(['default, white']).isRequired,
-  text: PropTypes.string.isRequired,
-  link: PropTypes.string,
-  onClick: PropTypes.func,
 };
 
 export default PrimaryButton;

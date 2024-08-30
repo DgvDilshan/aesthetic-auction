@@ -1,14 +1,14 @@
+import { RiUserFill } from '@remixicon/react';
+import { useState } from 'react';
 import './navbar.css';
 import logo from '../../../assets/logo-2.png';
-import Search from '../../ui/Search/Search';
-import { RiUserFill } from '@remixicon/react';
 import Sidebar from '../../ui/Sidebar/Sidebar';
-import { useState } from 'react';
+import Search from '../../ui/Search/Search';
 
 const Navbar = () => {
   const [activeSidebar, setActiveSidebar] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setActiveSidebar(!activeSidebar);
   };

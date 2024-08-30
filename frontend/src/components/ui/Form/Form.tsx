@@ -1,8 +1,11 @@
 import './form.css';
-import PropTypes from 'prop-types';
-import Row from 'react-bootstrap/Row';
+import { Row } from 'react-bootstrap';
 
-const Form = ({ children }) => {
+type FormProps = {
+  children: React.ReactNode;
+};
+
+const Form: React.FC<FormProps> = ({ children }) => {
   return (
     <div className='form'>
       <form action=''>
@@ -10,10 +13,6 @@ const Form = ({ children }) => {
       </form>
     </div>
   );
-};
-
-Form.propTypes = {
-  children: PropTypes.any,
 };
 
 export default Form;

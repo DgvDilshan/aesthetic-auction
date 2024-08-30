@@ -1,10 +1,13 @@
-import './sidebar.css';
-import logo from '../../../assets/logo-2.png';
-import Search from '../Search/Search';
 import { RiUserFill } from '@remixicon/react';
-import PropTypes from 'prop-types';
+import logo from '../../../assets/logo-2.png';
+import './sidebar.css';
+import Search from '../Search/Search';
 
-const Sidebar = ({ active }) => {
+type SidebarProps = {
+  active: boolean;
+};
+
+const Sidebar = ({ active }: SidebarProps) => {
   return (
     <div className={`sidebar ${active ? 'active' : ''}`}>
       <div className='logo'>
@@ -67,10 +70,6 @@ const Sidebar = ({ active }) => {
       </a>
     </div>
   );
-};
-
-Sidebar.propTypes = {
-  active: PropTypes.any,
 };
 
 export default Sidebar;
