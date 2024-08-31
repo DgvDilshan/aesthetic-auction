@@ -1,6 +1,7 @@
 using backend.Data;
 using backend.Interfaces;
 using backend.Models;
+using backend.Repository;
 using backend.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -56,6 +57,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IStyleRepository, StyleRepository>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {

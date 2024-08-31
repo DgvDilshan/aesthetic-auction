@@ -30,5 +30,7 @@ namespace backend.Data
             };
             builder.Entity<IdentityRole>().HasData(roles);
         }
+
+        public DbSet<Style> Style { get; set; }
     }
 }

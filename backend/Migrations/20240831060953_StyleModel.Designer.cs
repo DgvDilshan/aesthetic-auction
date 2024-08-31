@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240831060953_StyleModel")]
+    partial class StyleModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6b55cbf2-5385-48c6-bf75-6ca8c84573d3",
+                            Id = "f95dd036-3705-45da-94b8-713d0ff6f6ef",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2fba14a8-f074-4f23-bd18-030941dcf777",
+                            Id = "5ffc6762-3e95-4285-8a15-b5c150da4cde",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -183,7 +186,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Style");
+                    b.ToTable("Styles");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
