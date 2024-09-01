@@ -41,21 +41,9 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        [Route("{styleId}/{mediumId}")]
-        public async Task<IActionResult> Create(CreateArtRequestDto artDto, [FromRoute] int styleId, [FromRoute] int mediumId)
+        public async Task<IActionResult> Create(CreateArtRequestDto artDto)
         {
-
-            if (!await _artRepo.StyleExists(styleId))
-            {
-                return BadRequest(styleId + " Style is not exists");
-            }
-
-            if (!await _artRepo.MediumExists(mediumId))
-            {
-                return BadRequest(mediumId + " Medium is not exists");
-            }
-
-            var artModel = artDto.ToArtFromCreate(styleId, mediumId);
+            var artModel = artDto.ToArtFromCreate();
             await _artRepo.CreateAsync(artModel);
             return CreatedAtAction(nameof(GetById), new { id = artModel }, artModel.ToArtDto());
         }
@@ -75,20 +63,10 @@ namespace backend.Controllers
         }
 
         [HttpPut]
-        [Route("{id}/{styleId}/{mediumId}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromRoute] int styleId, [FromRoute] int mediumId, UpdateArtRequestDto artDto)
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, UpdateArtRequestDto artDto)
         {
-            if (!await _artRepo.StyleExists(styleId))
-            {
-                return BadRequest(styleId + " Style is not exists");
-            }
-
-            if (!await _artRepo.MediumExists(mediumId))
-            {
-                return BadRequest(mediumId + " Medium is not exists");
-            }
-
-            var artModel = await _artRepo.UpdateAsync(id, artDto.ToArtFromUpdate(id, styleId, mediumId));
+            var artModel = await _artRepo.UpdateAsync(id, artDto.ToArtFromUpdate(id));
 
             if(artModel == null)
             {

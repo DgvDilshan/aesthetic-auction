@@ -41,6 +41,8 @@ namespace backend.Repository
             existingArt.isFramed = artModel.isFramed;
             existingArt.Height = artModel.Height;
             existingArt.Width = artModel.Width;
+            existingArt.StyleId = artModel.StyleId;
+            existingArt.MediumId = artModel.MediumId;
 
             await _context.SaveChangesAsync();
             return existingArt;

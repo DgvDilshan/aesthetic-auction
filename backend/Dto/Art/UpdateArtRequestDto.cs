@@ -19,5 +19,7 @@ namespace backend.Dto.Art
         public decimal Height { get; set; }
         [Required]
         public decimal Width { get; set; }
+        public int? StyleId { get; set; }
+        public int? MediumId { get; set; }
     }
 }

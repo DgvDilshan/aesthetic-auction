@@ -24,7 +24,7 @@ namespace backend.Mappers
             };
         }
 
-        public static Art ToArtFromCreate(this CreateArtRequestDto artDto, int styleId, int mediumId)
+        public static Art ToArtFromCreate(this CreateArtRequestDto artDto)
         {
             string uniqueLot = GenerateUniqueLot();
 
@@ -38,8 +38,8 @@ namespace backend.Mappers
                 isFramed = artDto.isFramed,
                 Height = artDto.Height,
                 Width = artDto.Width,
-                StyleId = styleId,
-                MediumId = mediumId
+                StyleId = artDto.StyleId,
+                MediumId = artDto.MediumId
             };
         }
 
@@ -52,7 +52,7 @@ namespace backend.Mappers
         }
 
 
-        public static Art ToArtFromUpdate(this UpdateArtRequestDto artDto,int id, int styleId, int mediumId)
+        public static Art ToArtFromUpdate(this UpdateArtRequestDto artDto,int id)
         {
             return new Art
             {
@@ -63,8 +63,8 @@ namespace backend.Mappers
                 isFramed = artDto.isFramed,
                 Height = artDto.Height,
                 Width = artDto.Width,
-                StyleId = styleId,
-                MediumId = mediumId
+                StyleId = artDto.StyleId,
+                MediumId = artDto.MediumId
             };
         }
     }
