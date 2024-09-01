@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240901052547_ArtUpdate1")]
+    partial class ArtUpdate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e0ddc61f-e98d-415b-8df7-8717319fe600",
+                            Id = "f884b2ea-0d6d-40fc-84fa-59422134e564",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2b682781-c8da-485a-9baf-989208853e54",
+                            Id = "57df42ee-b7d1-4c6e-b3af-2cb8be2f5ad0",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -167,59 +170,6 @@ namespace backend.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("backend.Models.Art", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<long>("Condition")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("CurrentMarketPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Height")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Lot")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MediumId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StyleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Width")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("isFramed")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MediumId");
-
-                    b.HasIndex("StyleId");
-
-                    b.ToTable("Art");
                 });
 
             modelBuilder.Entity("backend.Models.Medium", b =>
@@ -370,27 +320,6 @@ namespace backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("backend.Models.Art", b =>
-                {
-                    b.HasOne("backend.Models.Medium", null)
-                        .WithMany("Arts")
-                        .HasForeignKey("MediumId");
-
-                    b.HasOne("backend.Models.Style", null)
-                        .WithMany("Arts")
-                        .HasForeignKey("StyleId");
-                });
-
-            modelBuilder.Entity("backend.Models.Medium", b =>
-                {
-                    b.Navigation("Arts");
-                });
-
-            modelBuilder.Entity("backend.Models.Style", b =>
-                {
-                    b.Navigation("Arts");
                 });
 #pragma warning restore 612, 618
         }

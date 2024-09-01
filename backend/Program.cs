@@ -60,6 +60,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 builder.Services.AddScoped<IStyleRepository, StyleRepository>();
 builder.Services.AddScoped<IMediumRepository, MediumRepository>();
+builder.Services.AddScoped<IArtRepository, ArtRepository>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {

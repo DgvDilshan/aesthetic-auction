@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240901064626_ArtUpd")]
+    partial class ArtUpd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e0ddc61f-e98d-415b-8df7-8717319fe600",
+                            Id = "fdc7b8af-0ba8-4efd-98ea-d9baee98c902",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2b682781-c8da-485a-9baf-989208853e54",
+                            Id = "95af2528-f5ca-411d-9fbe-95c5886af81f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -374,13 +377,17 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Art", b =>
                 {
-                    b.HasOne("backend.Models.Medium", null)
+                    b.HasOne("backend.Models.Medium", "Medium")
                         .WithMany("Arts")
                         .HasForeignKey("MediumId");
 
-                    b.HasOne("backend.Models.Style", null)
+                    b.HasOne("backend.Models.Style", "Style")
                         .WithMany("Arts")
                         .HasForeignKey("StyleId");
+
+                    b.Navigation("Medium");
+
+                    b.Navigation("Style");
                 });
 
             modelBuilder.Entity("backend.Models.Medium", b =>

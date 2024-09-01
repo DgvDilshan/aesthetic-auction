@@ -33,5 +33,6 @@ namespace backend.Data
 
         public DbSet<Style> Style { get; set; }
         public DbSet<Medium> Medium { get; set; }
+        public DbSet<Art> Art { get; set; }
     }
 }
