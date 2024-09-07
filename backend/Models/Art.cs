@@ -9,8 +9,8 @@ namespace backend.Models
         public string Title { get; set; } = string.Empty;
         public string Image {  get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
-        public decimal CurrentMarketPrice {  get; set; } 
-        public long Condition { get; set;  } 
+        public decimal CurrentMarketPrice {  get; set; }
+        public string Condition { get; set; } = string.Empty;
         public bool isFramed { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Height { get; set; }
@@ -19,5 +19,6 @@ namespace backend.Models
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public int? StyleId { get; set; }
         public int? MediumId { get; set; }
+        public List<Auction> Auction { get; set; } = new List<Auction>();
     }
 }

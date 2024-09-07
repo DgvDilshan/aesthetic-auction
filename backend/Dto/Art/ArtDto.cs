@@ -10,7 +10,7 @@ namespace backend.Dto.Art
         public string Title { get; set; } = string.Empty;
         public string Image {  get; set; } = string.Empty;
         public decimal CurrentMarketPrice { get; set; }
-        public long Condition { get; set; }
+        public string Condition { get; set; } = string.Empty;
         public bool isFramed { get; set; }
         public decimal Height { get; set; }
         public decimal Width { get; set; }

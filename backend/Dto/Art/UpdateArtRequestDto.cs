@@ -12,7 +12,7 @@ namespace backend.Dto.Art
         [Required]
         public decimal CurrentMarketPrice { get; set; }
         [Required]
-        public long Condition { get; set; }
+        public string Condition { get; set; } = string.Empty;
         [Required]
         public bool isFramed { get; set; }
         [Required]

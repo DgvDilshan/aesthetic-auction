@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240907140750_AuctionModel")]
+    partial class AuctionModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cba465b6-a9ed-49bc-9c17-e8d9fdf853f1",
+                            Id = "20b48d72-cadb-4256-b247-56dd2c91b1bb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b0fb7d63-badc-429e-977c-99aa7be1df8a",
+                            Id = "137d5332-06f8-4a4d-8c0f-1cc5d74cf56f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -246,18 +249,10 @@ namespace backend.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArtId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Auction");
                 });
@@ -423,24 +418,6 @@ namespace backend.Migrations
                         .HasForeignKey("StyleId");
                 });
 
-            modelBuilder.Entity("backend.Models.Auction", b =>
-                {
-                    b.HasOne("backend.Models.Art", null)
-                        .WithMany("Auction")
-                        .HasForeignKey("ArtId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.User", null)
-                        .WithMany("Auction")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("backend.Models.Art", b =>
-                {
-                    b.Navigation("Auction");
-                });
-
             modelBuilder.Entity("backend.Models.Medium", b =>
                 {
                     b.Navigation("Arts");
@@ -449,11 +426,6 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Style", b =>
                 {
                     b.Navigation("Arts");
-                });
-
-            modelBuilder.Entity("backend.Models.User", b =>
-                {
-                    b.Navigation("Auction");
                 });
 #pragma warning restore 612, 618
         }
