@@ -2,12 +2,21 @@ import { RiUserFill } from '@remixicon/react';
 import logo from '../../../assets/logo-2.png';
 import './sidebar.css';
 import Search from '../Search/Search';
+import { useAuth } from '../../../context/useAuth';
+import PrimaryButton from '../Buttons/PrimaryButton/PrimaryButton';
 
 type SidebarProps = {
   active: boolean;
 };
 
 const Sidebar = ({ active }: SidebarProps) => {
+  const { logout, isLoggedIn } = useAuth();
+
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    logout();
+  };
+
   return (
     <div className={`sidebar ${active ? 'active' : ''}`}>
       <div className='logo'>
@@ -63,11 +72,25 @@ const Sidebar = ({ active }: SidebarProps) => {
 
       <Search />
 
-      <a href='' className='my-acc-btn'>
-        <RiUserFill size={15} color='#fff' />
-        My Account
-        <span></span>
-      </a>
+      {isLoggedIn() ? (
+        <>
+          <a href='' className='my-acc-btn'>
+            <RiUserFill size={15} color='#fff' />
+            My Account
+            <span></span>
+          </a>
+          <PrimaryButton
+            text='Logout'
+            variant='default'
+            onClick={handleLogout}
+          />
+        </>
+      ) : (
+        <>
+          <PrimaryButton text='Signup' variant='white' link='/signup' />
+          <PrimaryButton text='Login' variant='default' link='/login' />
+        </>
+      )}
     </div>
   );
 };

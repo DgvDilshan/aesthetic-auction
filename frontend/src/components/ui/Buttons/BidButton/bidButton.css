@@ -1,0 +1,12 @@
+.bid-btn {
+ color: var(--white-color);
+ font-family: var(--font-dmsans);
+ font-size: 14px;
+ font-weight: 600;
+ line-height: 1;
+ white-space: nowrap;
+ border-radius: 5px;
+ background-color: var(--primary-color2);
+ padding: 8px 20px;
+ transition: .5s;
+}

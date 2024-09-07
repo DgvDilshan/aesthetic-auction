@@ -9,6 +9,7 @@ type InputProps = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
+  accept?: string;
 };
 
 const Input = ({
@@ -20,6 +21,7 @@ const Input = ({
   value,
   onChange,
   error,
+  accept,
 }: InputProps) => {
   return (
     <div className='form-inner'>
@@ -31,6 +33,7 @@ const Input = ({
         name={name}
         value={value}
         onChange={onChange}
+        accept={accept}
       />
       <span className='error-message'>{error}</span>
     </div>

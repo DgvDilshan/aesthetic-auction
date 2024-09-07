@@ -1,23 +1,22 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './components/shared/Navbar/Navbar';
-import Home from './pages/Home/Home';
-import Login from './pages/Login/Login';
-import Signup from './pages/Signup/Signup';
+
 import 'react-toastify/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { UserProvider } from './providers/UserProvider';
 
 const App = () => {
   const location = useLocation();
-  const showNavbar = !['/login', '/signup'].includes(location.pathname);
+  const showNavbar = !['/login', '/signup', '/add-art'].includes(
+    location.pathname
+  );
   return (
     <>
-      {showNavbar && <Navbar />}
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-      </Routes>
-      <ToastContainer />
+      <UserProvider>
+        {showNavbar && <Navbar />}
+        <Outlet />
+        <ToastContainer />
+      </UserProvider>
     </>
   );
 };
