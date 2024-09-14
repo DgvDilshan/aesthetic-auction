@@ -6,6 +6,7 @@ namespace backend.Interfaces
     {
         Task<List<Art>> GetAllAsync();
         Task<Art?> GetByIdAsync(int id);
+        Task<Art?> GetByUserAsync(string userId);
         Task<Art?> UpdateAsync(int id, Art artModel);
         Task<Art> CreateAsync(Art artModel);
         Task<Art?> DeleteAsync(int id);

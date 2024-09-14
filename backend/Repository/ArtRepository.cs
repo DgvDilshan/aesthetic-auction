@@ -25,6 +25,10 @@ namespace backend.Repository
         {
             return await _context.Art.FirstOrDefaultAsync(c => c.Id == id);
         }
+        public async Task<Art?> GetByUserAsync(string userId)
+        {
+            return await _context.Art.FirstOrDefaultAsync(c => c.UserId == userId);
+        }
         public async Task<Art?> UpdateAsync(int id, Art artModel)
         {
             var existingArt = await _context.Art.FindAsync(id);
