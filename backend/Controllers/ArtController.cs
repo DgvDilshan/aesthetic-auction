@@ -1,7 +1,11 @@
 ﻿using backend.Data;
 using backend.Dto.Art;
+using backend.Extensions;
 using backend.Interfaces;
 using backend.Mappers;
+using backend.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -12,10 +16,12 @@ namespace backend.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly IArtRepository _artRepo;
-        public ArtController(ApplicationDBContext context, IArtRepository artRepo)
+        private readonly UserManager<User> _userManager;
+        public ArtController(ApplicationDBContext context, UserManager<User> userManager, IArtRepository artRepo)
         {
             _context = context;
             _artRepo = artRepo;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -41,11 +47,28 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateArtRequestDto artDto)
         {
-            var artModel = artDto.ToArtFromCreate();
+            var username = User.GetUsername();
+
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Username cannot be null or empty");
+            }
+
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var userId = user.Id;
+
+            var artModel = artDto.ToArtFromCreate(userId);
             await _artRepo.CreateAsync(artModel);
-            return CreatedAtAction(nameof(GetById), new { id = artModel }, artModel.ToArtDto());
+            return CreatedAtAction(nameof(GetById), new { id = artModel.Id }, artModel.ToArtDto());
         }
 
         [HttpDelete]

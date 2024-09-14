@@ -21,10 +21,12 @@ namespace backend.Mappers
                 CreatedOn = artModel.CreatedOn,
                 StyleId = artModel.StyleId,
                 MediumId = artModel.MediumId,
+                UserId = artModel.UserId,
+                
             };
         }
 
-        public static Art ToArtFromCreate(this CreateArtRequestDto artDto)
+        public static Art ToArtFromCreate(this CreateArtRequestDto artDto, string userId)
         {
             string uniqueLot = GenerateUniqueLot();
 
@@ -39,7 +41,8 @@ namespace backend.Mappers
                 Height = artDto.Height,
                 Width = artDto.Width,
                 StyleId = artDto.StyleId,
-                MediumId = artDto.MediumId
+                MediumId = artDto.MediumId,
+                UserId = userId
             };
         }
 

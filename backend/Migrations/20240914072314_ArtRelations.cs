@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Identity : Migration
+    public partial class ArtRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +50,32 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medium",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MediumType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medium", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Style",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StyleType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Style", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +184,102 @@ namespace backend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Art",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Lot = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CurrentMarketPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Condition = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    isFramed = table.Column<bool>(type: "bit", nullable: false),
+                    Height = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Width = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StyleId = table.Column<int>(type: "int", nullable: true),
+                    MediumId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Art", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Art_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Art_Medium_MediumId",
+                        column: x => x.MediumId,
+                        principalTable: "Medium",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Art_Style_StyleId",
+                        column: x => x.StyleId,
+                        principalTable: "Style",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Auction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<int>(type: "int", nullable: false),
+                    ArtId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Auction_Art_ArtId",
+                        column: x => x.ArtId,
+                        principalTable: "Art",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Auction_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "41e62821-e9a0-48d1-b6cb-4558b95148c2", null, "User", "USER" },
+                    { "f873758f-d243-4608-a356-3bf92a193abf", null, "Admin", "ADMIN" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Art_MediumId",
+                table: "Art",
+                column: "MediumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Art_StyleId",
+                table: "Art",
+                column: "StyleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Art_UserId",
+                table: "Art",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +318,16 @@ namespace backend.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Auction_ArtId",
+                table: "Auction",
+                column: "ArtId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Auction_UserId",
+                table: "Auction",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -215,10 +349,22 @@ namespace backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Auction");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Art");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Medium");
+
+            migrationBuilder.DropTable(
+                name: "Style");
         }
     }
 }

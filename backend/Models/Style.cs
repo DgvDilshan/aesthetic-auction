@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string StyleType { get; set; } = string.Empty;
-        public List<Art> Arts { get; set; } = new List<Art>();
+        public List<Art> Art { get; set; } = new List<Art>();
     }
 }

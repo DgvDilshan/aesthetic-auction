@@ -51,13 +51,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cba465b6-a9ed-49bc-9c17-e8d9fdf853f1",
+                            Id = "f873758f-d243-4608-a356-3bf92a193abf",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b0fb7d63-badc-429e-977c-99aa7be1df8a",
+                            Id = "41e62821-e9a0-48d1-b6cb-4558b95148c2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -208,6 +208,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("Width")
                         .HasColumnType("decimal(18,2)");
 
@@ -219,6 +223,8 @@ namespace backend.Migrations
                     b.HasIndex("MediumId");
 
                     b.HasIndex("StyleId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Art");
                 });
@@ -414,13 +420,27 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Art", b =>
                 {
-                    b.HasOne("backend.Models.Medium", null)
-                        .WithMany("Arts")
-                        .HasForeignKey("MediumId");
+                    b.HasOne("backend.Models.Medium", "Medium")
+                        .WithMany("Art")
+                        .HasForeignKey("MediumId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("backend.Models.Style", null)
-                        .WithMany("Arts")
-                        .HasForeignKey("StyleId");
+                    b.HasOne("backend.Models.Style", "Style")
+                        .WithMany("Art")
+                        .HasForeignKey("StyleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Art")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medium");
+
+                    b.Navigation("Style");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Auction", b =>
@@ -443,16 +463,18 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Medium", b =>
                 {
-                    b.Navigation("Arts");
+                    b.Navigation("Art");
                 });
 
             modelBuilder.Entity("backend.Models.Style", b =>
                 {
-                    b.Navigation("Arts");
+                    b.Navigation("Art");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
                 {
+                    b.Navigation("Art");
+
                     b.Navigation("Auction");
                 });
 #pragma warning restore 612, 618

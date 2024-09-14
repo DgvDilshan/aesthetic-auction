@@ -17,6 +17,7 @@ namespace backend.Dto.Art
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public int? StyleId { get; set; }
         public int? MediumId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
     }
 }

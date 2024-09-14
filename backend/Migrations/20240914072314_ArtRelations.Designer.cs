@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240907140750_AuctionModel")]
-    partial class AuctionModel
+    [Migration("20240914072314_ArtRelations")]
+    partial class ArtRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "20b48d72-cadb-4256-b247-56dd2c91b1bb",
+                            Id = "f873758f-d243-4608-a356-3bf92a193abf",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "137d5332-06f8-4a4d-8c0f-1cc5d74cf56f",
+                            Id = "41e62821-e9a0-48d1-b6cb-4558b95148c2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -211,6 +211,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("Width")
                         .HasColumnType("decimal(18,2)");
 
@@ -222,6 +226,8 @@ namespace backend.Migrations
                     b.HasIndex("MediumId");
 
                     b.HasIndex("StyleId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Art");
                 });
@@ -249,10 +255,18 @@ namespace backend.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArtId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Auction");
                 });
@@ -409,23 +423,62 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Art", b =>
                 {
-                    b.HasOne("backend.Models.Medium", null)
-                        .WithMany("Arts")
-                        .HasForeignKey("MediumId");
+                    b.HasOne("backend.Models.Medium", "Medium")
+                        .WithMany("Art")
+                        .HasForeignKey("MediumId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("backend.Models.Style", null)
-                        .WithMany("Arts")
-                        .HasForeignKey("StyleId");
+                    b.HasOne("backend.Models.Style", "Style")
+                        .WithMany("Art")
+                        .HasForeignKey("StyleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany("Art")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Medium");
+
+                    b.Navigation("Style");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backend.Models.Auction", b =>
+                {
+                    b.HasOne("backend.Models.Art", null)
+                        .WithMany("Auction")
+                        .HasForeignKey("ArtId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.User", null)
+                        .WithMany("Auction")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("backend.Models.Art", b =>
+                {
+                    b.Navigation("Auction");
                 });
 
             modelBuilder.Entity("backend.Models.Medium", b =>
                 {
-                    b.Navigation("Arts");
+                    b.Navigation("Art");
                 });
 
             modelBuilder.Entity("backend.Models.Style", b =>
                 {
-                    b.Navigation("Arts");
+                    b.Navigation("Art");
+                });
+
+            modelBuilder.Entity("backend.Models.User", b =>
+                {
+                    b.Navigation("Art");
+
+                    b.Navigation("Auction");
                 });
 #pragma warning restore 612, 618
         }

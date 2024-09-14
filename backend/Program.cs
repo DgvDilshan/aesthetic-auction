@@ -93,6 +93,7 @@ builder.Services.AddAuthentication(options =>
             System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
         )
     };
+
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();

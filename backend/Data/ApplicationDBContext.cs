@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace backend.Data
 {
@@ -15,6 +16,25 @@ namespace backend.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Art>()
+                .HasOne(a => a.User)
+                .WithMany(u => u.Art)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Art>()
+                .HasOne(a => a.Style)
+                .WithMany(u => u.Art)
+                .HasForeignKey(a => a.StyleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Art>()
+                .HasOne(a => a.Medium)
+                .WithMany(u => u.Art)
+                .HasForeignKey(a => a.MediumId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole
