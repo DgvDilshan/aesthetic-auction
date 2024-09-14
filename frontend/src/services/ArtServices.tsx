@@ -16,17 +16,27 @@ export const artPostAPI = async (
   mediumId: number
 ) => {
   try {
-    const data = await axios.post<ArtPost>(api, {
-      title: title,
-      image: image,
-      currentMarketPrice: currentMarketPrice,
-      condition: condition,
-      isFramed: isFramed,
-      height: height,
-      width: width,
-      styleId: styleId,
-      mediumId: mediumId,
-    });
+    const token = localStorage.getItem('token');
+
+    const data = await axios.post<ArtPost>(
+      api,
+      {
+        title: title,
+        image: image,
+        currentMarketPrice: currentMarketPrice,
+        condition: condition,
+        isFramed: isFramed,
+        height: height,
+        width: width,
+        styleId: styleId,
+        mediumId: mediumId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the authorization header
+        },
+      }
+    );
     return data;
   } catch (error) {
     handleError(error);
