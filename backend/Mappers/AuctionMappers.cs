@@ -13,7 +13,7 @@ namespace backend.Mappers
                 Status = auctionModel.Status,
                 StartDate = auctionModel.StartDate,
                 EndDate = auctionModel.EndDate,
-                CreatorId = auctionModel.CreatorId,
+                UserId = auctionModel.UserId,
                 ArtId = auctionModel.ArtId,
                 CreatedDate = auctionModel.CreatedDate,
             };
@@ -25,7 +25,7 @@ namespace backend.Mappers
                 Status = auctionDto.Status,
                 StartDate = auctionDto.StartDate,
                 EndDate = auctionDto.EndDate,
-                CreatorId = auctionDto.CreatorId,
+                UserId = auctionDto.UserId,
                 ArtId = auctionDto.ArtId,
             };
         }

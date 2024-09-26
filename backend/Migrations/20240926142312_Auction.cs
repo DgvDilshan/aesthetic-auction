@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class ArtRelations : Migration
+    public partial class Auction : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -211,19 +211,19 @@ namespace backend.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Art_Medium_MediumId",
                         column: x => x.MediumId,
                         principalTable: "Medium",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Art_Style_StyleId",
                         column: x => x.StyleId,
                         principalTable: "Style",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -235,10 +235,9 @@ namespace backend.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false),
                     ArtId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,12 +247,13 @@ namespace backend.Migrations
                         column: x => x.ArtId,
                         principalTable: "Art",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Auction_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -261,8 +261,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "41e62821-e9a0-48d1-b6cb-4558b95148c2", null, "User", "USER" },
-                    { "f873758f-d243-4608-a356-3bf92a193abf", null, "Admin", "ADMIN" }
+                    { "3184da64-8af4-4abc-bd56-fa449b6145d7", null, "User", "USER" },
+                    { "f8c97dfd-375f-4f95-adec-523aa71025dc", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -322,7 +322,8 @@ namespace backend.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Auction_ArtId",
                 table: "Auction",
-                column: "ArtId");
+                column: "ArtId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Auction_UserId",

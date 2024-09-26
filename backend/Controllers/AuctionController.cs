@@ -2,6 +2,7 @@
 using backend.Dto.Auction;
 using backend.Interfaces;
 using backend.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateAuctionDto auctionDto)
         {
             var auctionModel = auctionDto.ToCreateAuctionDto();
@@ -65,6 +67,7 @@ namespace backend.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var auctionModel = await _auctionRepo.DeleteAsync(id);
@@ -79,6 +82,7 @@ namespace backend.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, UpdateAuctionDto auctionDto)
         {
             var auctionModel = await _auctionRepo.UpdateAsync(id, auctionDto.ToUpdateAuctionDto(id));

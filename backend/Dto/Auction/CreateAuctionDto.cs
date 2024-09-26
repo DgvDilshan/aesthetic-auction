@@ -12,7 +12,7 @@ namespace backend.Dto.Auction
         [Required]
         public DateTime EndDate { get; set; } = DateTime.MinValue;
         [Required]
-        public int CreatorId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         [Required]
         public int ArtId { get; set; }
     }

@@ -25,6 +25,6 @@ namespace backend.Models
         public User User { get; set; }
         public Style Style { get; set; }
         public Medium Medium { get; set; }
-        public List<Auction> Auction { get; set; } = new List<Auction>();
+        public Auction Auction { get; set; }
     }
 }

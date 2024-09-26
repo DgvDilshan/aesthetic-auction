@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240914072314_ArtRelations")]
-    partial class ArtRelations
+    [Migration("20240926142312_Auction")]
+    partial class Auction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f873758f-d243-4608-a356-3bf92a193abf",
+                            Id = "f8c97dfd-375f-4f95-adec-523aa71025dc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "41e62821-e9a0-48d1-b6cb-4558b95148c2",
+                            Id = "3184da64-8af4-4abc-bd56-fa449b6145d7",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -246,9 +246,6 @@ namespace backend.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -260,11 +257,13 @@ namespace backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtId");
+                    b.HasIndex("ArtId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -426,17 +425,17 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Medium", "Medium")
                         .WithMany("Art")
                         .HasForeignKey("MediumId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("backend.Models.Style", "Style")
                         .WithMany("Art")
                         .HasForeignKey("StyleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("backend.Models.User", "User")
                         .WithMany("Art")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Medium");
@@ -448,20 +447,27 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Auction", b =>
                 {
-                    b.HasOne("backend.Models.Art", null)
-                        .WithMany("Auction")
-                        .HasForeignKey("ArtId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("backend.Models.Art", "Art")
+                        .WithOne("Auction")
+                        .HasForeignKey("backend.Models.Auction", "ArtId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.User", null)
+                    b.HasOne("backend.Models.User", "User")
                         .WithMany("Auction")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Art");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Art", b =>
                 {
-                    b.Navigation("Auction");
+                    b.Navigation("Auction")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("backend.Models.Medium", b =>

@@ -85,6 +85,7 @@ namespace backend.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var artModel = await _artRepo.DeleteAsync(id);
@@ -99,6 +100,7 @@ namespace backend.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, UpdateArtRequestDto artDto)
         {
             var artModel = await _artRepo.UpdateAsync(id, artDto.ToArtFromUpdate(id));
