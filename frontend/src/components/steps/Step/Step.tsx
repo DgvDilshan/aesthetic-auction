@@ -32,11 +32,11 @@ const Step = ({ step, right }: Props) => {
           </div>
         </div>
       ) : (
-        <a className='step' href={link}>
+        <a className={`step ${right ? 'two' : ''}`} href={link}>
           <span>Step {stepNo}</span>
           <h2>{stepType}</h2>
           <p>{desc}</p>
-          <div className='arrow'>
+          <div className={`arrow ${right ? 'two' : ''}`}>
             <svg
               width='11'
               height='11'
@@ -53,4 +53,3 @@ const Step = ({ step, right }: Props) => {
 };
 
 export default Step;
-

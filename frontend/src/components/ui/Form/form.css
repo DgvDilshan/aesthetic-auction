@@ -1,7 +1,5 @@
 .form {
- background-image: url(bg.png), linear-gradient(180deg, #0a0a0a, #0a0a0a);
- background-size: cover;
- background-repeat: no-repeat;
+ background-color: #f7f7f7;
  border: 1px solid rgba(var(--title-color-opc), .1);
  border-radius: 10px;
  padding: 40px 70px;

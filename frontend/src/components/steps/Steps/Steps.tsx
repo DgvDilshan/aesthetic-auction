@@ -1,56 +1,41 @@
-import './step.css';
+import { Col, Row } from 'react-bootstrap';
 
-type Step = {
+import './steps.css';
+import Step from '../Step/Step';
+
+type StepType = {
   stepNo: number;
   stepType: string;
   desc: string;
   link: string;
 };
+
 type Props = {
-  step: Step;
-  right: boolean;
+  steps: StepType[];
 };
 
-const Step = ({ step, right }: Props) => {
-  const { stepNo, stepType, desc, link } = step;
+const Steps: React.FC<Props> = ({ steps }) => {
   return (
-    <>
-      {link === '' ? (
-        <div className={`step ${right ? 'two' : ''}`}>
-          <span>Step {stepNo}</span>
-          <h2>{stepType}</h2>
-          <p>{desc}</p>
-          <div className={`arrow ${right ? 'two' : ''}`}>
-            <svg
-              width='11'
-              height='11'
-              viewBox='0 0 11 11'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path d='M10.501 10.501L2.99848 10.501L2.99848 9.66931L9.07931 9.66931L0.498476 1.08897L1.08848 0.500977L9.66764 9.07965L9.66764 2.99515L10.501 2.99515L10.501 10.501Z'></path>
-            </svg>
-          </div>
-        </div>
-      ) : (
-        <a className='step' href={link}>
-          <span>Step {stepNo}</span>
-          <h2>{stepType}</h2>
-          <p>{desc}</p>
-          <div className='arrow'>
-            <svg
-              width='11'
-              height='11'
-              viewBox='0 0 11 11'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path d='M10.501 10.501L2.99848 10.501L2.99848 9.66931L9.07931 9.66931L0.498476 1.08897L1.08848 0.500977L9.66764 9.07965L9.66764 2.99515L10.501 2.99515L10.501 10.501Z'></path>
-            </svg>
-          </div>
-        </a>
-      )}
-    </>
+    <div className='steps'>
+      {steps.map((step) => {
+        let right = false;
+
+        if (step.stepNo % 2 === 0) {
+          right = true;
+        } else {
+          right = false;
+        }
+
+        return (
+          <Row style={{ marginBottom: 25, justifyContent: right ? 'end' : '' }}>
+            <Col lg={5} md={6}>
+              <Step step={step} key={step.stepNo} right={right} />
+            </Col>
+          </Row>
+        );
+      })}
+    </div>
   );
 };
 
-export default Step;
-
+export default Steps;

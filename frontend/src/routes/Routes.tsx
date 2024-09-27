@@ -6,6 +6,8 @@ import Signup from '../pages/Signup/Signup';
 import ProtectedRoute from './ProtectedRoute';
 import AddArt from '../pages/AddArt/AddArt';
 import HowtoSell from '../pages/HowtoSell/HowtoSell';
+import Profile from '../pages/Profile/Profile';
+import CreateStore from '../pages/CreateStore/CreateStore';
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +23,22 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <AddArt />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'create-store',
+        element: (
+          <ProtectedRoute>
+            <CreateStore />
           </ProtectedRoute>
         ),
       },
