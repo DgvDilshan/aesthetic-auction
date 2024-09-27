@@ -33,7 +33,7 @@ export const artPostAPI = async (
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`, // Add the authorization header
+          Authorization: `Bearer ${token}`,
         },
       }
     );

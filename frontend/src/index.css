@@ -199,6 +199,15 @@ a {
   align-items: center;
 }
 
+.auth-sup {
+  margin-top: 20px !important;
+  color: var(--bs-dark-border-subtle);
+
+  a {
+    color: var(--primary-color);
+  }
+}
+
 .error-message {
   color: var(--bs-danger);
   font-size: 14px;

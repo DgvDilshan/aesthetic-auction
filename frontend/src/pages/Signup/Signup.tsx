@@ -128,6 +128,9 @@ const Signup = () => {
         <div className='auth-btn'>
           <PrimaryButton variant='white' text='Sign Up' type='submit' />
         </div>
+        <div className='auth-sup'>
+          Already have an account? <a href='/login'>Login</a>
+        </div>
       </Form>
     </div>
   );

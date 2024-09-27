@@ -71,7 +71,7 @@ const AuctionCard = ({ art }: AuctionCardProps) => {
         <div className='price-area'>
           <div className='price'>
             <span>Current Bid at:</span>
-            <strong>${art.currentMarketPrice}</strong>
+            <strong>${art.currentMarketPrice.toLocaleString()}</strong>
           </div>
           <BidButton text='Bid now' link='/' />
         </div>

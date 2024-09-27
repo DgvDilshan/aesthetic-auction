@@ -65,6 +65,9 @@ const Login = () => {
         <div className='auth-btn'>
           <PrimaryButton variant='white' text='Login' type='submit' />
         </div>
+        <div className='auth-sup'>
+          Don't have an account? <a href='/signup'>Signup</a>
+        </div>
       </Form>
     </div>
   );

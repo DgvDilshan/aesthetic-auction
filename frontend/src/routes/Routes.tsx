@@ -5,6 +5,7 @@ import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
 import ProtectedRoute from './ProtectedRoute';
 import AddArt from '../pages/AddArt/AddArt';
+import HowtoSell from '../pages/HowtoSell/HowtoSell';
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Home /> },
+      { path: 'how-to-sell', element: <HowtoSell /> },
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
       {

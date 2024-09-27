@@ -107,7 +107,8 @@ const AddArt = () => {
     try {
       const res = await getStyleAPI();
       if (res?.data) {
-        setStyles(res.data);
+        const stylesArray = Array.isArray(res.data) ? res.data : [res.data];
+        setStyles(stylesArray);
       } else {
         setStyles(null);
       }
@@ -121,7 +122,8 @@ const AddArt = () => {
     try {
       const res = await getMediumAPI();
       if (res?.data) {
-        setMediums(res.data);
+        const mediumArray = Array.isArray(res.data) ? res.data : [res.data];
+        setMediums(mediumArray);
       } else {
         setMediums(null);
       }

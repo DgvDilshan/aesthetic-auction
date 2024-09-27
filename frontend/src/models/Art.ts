@@ -11,10 +11,10 @@ export type ArtPost = {
 };
 
 export type ArtGet = {
-  Lot: string;
-  Title: string;
-  Image: string;
-  CurrentMarketPrice: number;
+  lot: string;
+  title: string;
+  image: string;
+  currentMarketPrice: number;
   Condition: string;
   isFramed: boolean;
   Height: number;

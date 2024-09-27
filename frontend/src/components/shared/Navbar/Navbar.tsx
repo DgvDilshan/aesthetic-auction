@@ -64,7 +64,7 @@ const Navbar = () => {
                   <a href=''>How to bid</a>
                 </li>
                 <li>
-                  <a href=''>Sell your item</a>
+                  <a href='how-to-sell'>Sell your item</a>
                 </li>
               </ul>
             </div>
