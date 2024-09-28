@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Auction : Migration
+    public partial class Store : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -185,6 +185,32 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Store",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoverPhoto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfilePhoto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Store", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Store_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Art",
                 columns: table => new
                 {
@@ -201,7 +227,8 @@ namespace backend.Migrations
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StyleId = table.Column<int>(type: "int", nullable: true),
                     MediumId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StoreId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -216,6 +243,12 @@ namespace backend.Migrations
                         name: "FK_Art_Medium_MediumId",
                         column: x => x.MediumId,
                         principalTable: "Medium",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Art_Store_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Store",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -261,14 +294,19 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3184da64-8af4-4abc-bd56-fa449b6145d7", null, "User", "USER" },
-                    { "f8c97dfd-375f-4f95-adec-523aa71025dc", null, "Admin", "ADMIN" }
+                    { "6a56eacb-0f40-42aa-bd37-8b6112b66613", null, "User", "USER" },
+                    { "cc03c151-3ffa-47ec-a756-a4834d4f5995", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Art_MediumId",
                 table: "Art",
                 column: "MediumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Art_StoreId",
+                table: "Art",
+                column: "StoreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Art_StyleId",
@@ -329,6 +367,12 @@ namespace backend.Migrations
                 name: "IX_Auction_UserId",
                 table: "Auction",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Store_UserId",
+                table: "Store",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -359,13 +403,16 @@ namespace backend.Migrations
                 name: "Art");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Medium");
 
             migrationBuilder.DropTable(
+                name: "Store");
+
+            migrationBuilder.DropTable(
                 name: "Style");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

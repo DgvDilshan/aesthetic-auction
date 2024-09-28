@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240926142312_Auction")]
-    partial class Auction
+    [Migration("20240927103032_Store")]
+    partial class Store
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f8c97dfd-375f-4f95-adec-523aa71025dc",
+                            Id = "cc03c151-3ffa-47ec-a756-a4834d4f5995",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3184da64-8af4-4abc-bd56-fa449b6145d7",
+                            Id = "6a56eacb-0f40-42aa-bd37-8b6112b66613",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -204,6 +204,9 @@ namespace backend.Migrations
                     b.Property<int?>("MediumId")
                         .HasColumnType("int");
 
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("StyleId")
                         .HasColumnType("int");
 
@@ -224,6 +227,8 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MediumId");
+
+                    b.HasIndex("StoreId");
 
                     b.HasIndex("StyleId");
 
@@ -285,6 +290,53 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Medium");
+                });
+
+            modelBuilder.Entity("backend.Models.Store", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoverPhoto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePhoto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Store");
                 });
 
             modelBuilder.Entity("backend.Models.Style", b =>
@@ -427,6 +479,12 @@ namespace backend.Migrations
                         .HasForeignKey("MediumId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("backend.Models.Store", "Store")
+                        .WithMany("Arts")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("backend.Models.Style", "Style")
                         .WithMany("Art")
                         .HasForeignKey("StyleId")
@@ -439,6 +497,8 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Medium");
+
+                    b.Navigation("Store");
 
                     b.Navigation("Style");
 
@@ -464,6 +524,17 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backend.Models.Store", b =>
+                {
+                    b.HasOne("backend.Models.User", "User")
+                        .WithOne("Store")
+                        .HasForeignKey("backend.Models.Store", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.Models.Art", b =>
                 {
                     b.Navigation("Auction")
@@ -473,6 +544,11 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Medium", b =>
                 {
                     b.Navigation("Art");
+                });
+
+            modelBuilder.Entity("backend.Models.Store", b =>
+                {
+                    b.Navigation("Arts");
                 });
 
             modelBuilder.Entity("backend.Models.Style", b =>
@@ -485,6 +561,9 @@ namespace backend.Migrations
                     b.Navigation("Art");
 
                     b.Navigation("Auction");
+
+                    b.Navigation("Store")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -26,5 +26,6 @@ namespace backend.Models
         public Style Style { get; set; }
         public Medium Medium { get; set; }
         public Auction Auction { get; set; }
+        public Store Store { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace backend.Data
         {
             base.OnModelCreating(builder);
 
-            //Art Model Relations
+                //Art Model Relations
                 builder.Entity<Art>()
                     .HasOne(a => a.User)
                     .WithMany(u => u.Art)
@@ -49,6 +49,18 @@ namespace backend.Data
                     .HasForeignKey(a => a.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
 
+                //Store Model Relations
+                builder.Entity<Store>()
+                    .HasOne(a => a.User)
+                    .WithOne(u => u.Store)
+                    .HasForeignKey<Store>(a => a.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                builder.Entity<Store>()
+                    .HasMany(a => a.Arts)
+                    .WithOne(u => u.Store)
+                    .OnDelete(DeleteBehavior.Restrict);
+
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole
@@ -69,5 +81,6 @@ namespace backend.Data
         public DbSet<Medium> Medium { get; set; }
         public DbSet<Art> Art { get; set; }
         public DbSet<Auction> Auction {  get; set; }
+        public DbSet<Store> Store { get; set; }
     }
 }
