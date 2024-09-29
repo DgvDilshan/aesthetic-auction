@@ -6,6 +6,8 @@ import Dropzone from '../../components/ui/Dropzone/Dropzone';
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone';
 import React, { useCallback, useState } from 'react';
 import PrimaryButton from '../../components/ui/Buttons/PrimaryButton/PrimaryButton';
+import { storePostApi } from '../../services/StoreServices';
+import { toast } from 'react-toastify';
 
 const CreateStore = () => {
   const [email, setEmail] = useState('');
@@ -19,10 +21,10 @@ const CreateStore = () => {
     address?: string;
   }>({});
   const [coverImagePreview, setCoverImagePreview] = useState<
-    string | ArrayBuffer | null
+    string | undefined | null
   >(null);
   const [profileImagePreview, setProfileImagePreview] = useState<
-    string | ArrayBuffer | null
+    string | undefined | null
   >(null);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
@@ -75,8 +77,22 @@ const CreateStore = () => {
         }
       ).then((r) => r.json());
 
-      console.log(resultCover);
-      console.log(resultProfile);
+      storePostApi(
+        name,
+        email,
+        pno,
+        address,
+        resultCover.secure_url,
+        resultProfile.secure_url
+      )
+        .then((res) => {
+          if (res) {
+            toast.success('Store created successfully');
+          }
+        })
+        .catch((e) => {
+          toast.warning(e);
+        });
     }
   };
 
@@ -89,7 +105,7 @@ const CreateStore = () => {
       const file = new FileReader();
 
       file.onload = () => {
-        setCoverImagePreview(file.result);
+        setCoverImagePreview(file.result as string | undefined);
       };
       file.readAsDataURL(acceptedFiles[0]);
 
@@ -107,7 +123,7 @@ const CreateStore = () => {
       const file = new FileReader();
 
       file.onload = () => {
-        setProfileImagePreview(file.result);
+        setProfileImagePreview(file.result as string | undefined);
       };
       file.readAsDataURL(acceptedFiles[0]);
 
@@ -204,6 +220,11 @@ const CreateStore = () => {
                   getInputProps={getCoverInputProps}
                   isDragActive={isCoverDragActive}
                 />
+                {coverImagePreview && (
+                  <div className='upload-image'>
+                    <img src={coverImagePreview} alt='Cover Image' />
+                  </div>
+                )}
               </Col>
               <Col md={12}>
                 <Dropzone
@@ -214,10 +235,19 @@ const CreateStore = () => {
                   getInputProps={getProfileInputProps}
                   isDragActive={isProfileDragActive}
                 />
+                {profileImagePreview && (
+                  <div className='upload-image-profile'>
+                    <img src={profileImagePreview} alt='Profile Image' />
+                  </div>
+                )}
               </Col>
 
               <div className='auth-btn'>
-                <PrimaryButton variant='white' text='Add Art' type='submit' />
+                <PrimaryButton
+                  variant='white'
+                  text='Create Store'
+                  type='submit'
+                />
               </div>
             </Form>
           </Col>
