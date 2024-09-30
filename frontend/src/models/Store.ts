@@ -6,3 +6,13 @@ export type StorePost = {
   CoverPhoto: string;
   ProfilePhoto: string;
 };
+
+export type StoreGet = {
+  id: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  coverPhoto: string;
+  profilePhoto: string;
+};

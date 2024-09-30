@@ -1,7 +1,7 @@
 import './primaryButton.css';
 
 type PrimaryButtonProps = {
-  variant: 'default' | 'white';
+  variant: 'default' | 'white' | 'seller';
   text: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   link?: string;
@@ -17,7 +17,13 @@ const PrimaryButton = ({
   type,
   icon,
 }: PrimaryButtonProps) => {
-  const buttonStyle = `primary-btn ${variant === 'white' ? 'color-white' : ''}`;
+  const buttonStyle = `primary-btn ${
+    variant === 'white'
+      ? 'color-white'
+      : variant === 'seller'
+      ? 'seller-btn'
+      : ''
+  }`;
   return (
     <>
       {link ? (

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { handleError } from '../handlers/ErrorHandler';
-import { StorePost } from '../models/Store';
+import { StoreGet, StorePost } from '../models/Store';
 
 const api = 'http://localhost:5256/backend/store';
 
@@ -32,6 +32,24 @@ export const storePostApi = async (
       }
     );
 
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const storeGetApi = async () => {
+  try {
+    const data = await axios.get<StoreGet>(api);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const storeGetByIdApi = async (id: string) => {
+  try {
+    const data = await axios.get<StoreGet>(`${api}/${id}`);
     return data;
   } catch (error) {
     handleError(error);

@@ -110,6 +110,375 @@ a {
   text-decoration: none !important;
 }
 
+/* Sizes */
+.pt-130 {
+  padding-top: 130px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .pt-130 {
+    padding-top: 100px
+  }
+}
+
+@media (max-width: 991px) {
+  .pt-130 {
+    padding-top: 90px
+  }
+}
+
+.pb-130 {
+  padding-bottom: 130px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .pb-130 {
+    padding-bottom: 100px
+  }
+}
+
+@media (max-width: 991px) {
+  .pb-130 {
+    padding-bottom: 90px
+  }
+}
+
+.pt-110 {
+  padding-top: 110px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .pt-110 {
+    padding-top: 90px
+  }
+}
+
+@media (max-width: 991px) {
+  .pt-110 {
+    padding-top: 70px
+  }
+}
+
+.pt-90 {
+  padding-top: 90px
+}
+
+@media (max-width: 991px) {
+  .pt-90 {
+    padding-top: 80px
+  }
+}
+
+@media (max-width: 767px) {
+  .pt-90 {
+    padding-top: 70px
+  }
+}
+
+.pb-90 {
+  padding-bottom: 90px
+}
+
+@media (max-width: 991px) {
+  .pb-90 {
+    padding-bottom: 80px
+  }
+}
+
+@media (max-width: 767px) {
+  .pb-90 {
+    padding-bottom: 70px
+  }
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .pb-80 {
+    padding-bottom: 60px
+  }
+}
+
+.pb-65 {
+  padding-bottom: 65px
+}
+
+.mt-130 {
+  margin-top: 130px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .mt-130 {
+    margin-top: 100px
+  }
+}
+
+@media (max-width: 991px) {
+  .mt-130 {
+    margin-top: 90px
+  }
+}
+
+.mt-120 {
+  margin-top: 120px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .mt-120 {
+    margin-top: 100px
+  }
+}
+
+@media (max-width: 991px) {
+  .mt-120 {
+    margin-top: 90px
+  }
+}
+
+.mb-130 {
+  margin-bottom: 130px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .mb-130 {
+    margin-bottom: 100px
+  }
+}
+
+@media (max-width: 991px) {
+  .mb-130 {
+    margin-bottom: 90px
+  }
+}
+
+.mb-120 {
+  margin-bottom: 120px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .mb-120 {
+    margin-bottom: 90px
+  }
+}
+
+@media (max-width: 991px) {
+  .mb-120 {
+    margin-bottom: 80px
+  }
+}
+
+.mb-110 {
+  margin-bottom: 110px
+}
+
+@media (min-width: 992px) and (max-width:1199px) {
+  .mb-110 {
+    margin-bottom: 90px
+  }
+}
+
+@media (max-width: 991px) {
+  .mb-110 {
+    margin-bottom: 80px
+  }
+}
+
+.mb-100 {
+  margin-bottom: 110px
+}
+
+@media (max-width: 991px) {
+  .mb-100 {
+    margin-bottom: 80px
+  }
+}
+
+.mt-100 {
+  margin-top: 110px !important
+}
+
+@media (max-width: 991px) {
+  .mt-100 {
+    margin-top: 80px !important
+  }
+}
+
+.mb-90 {
+  margin-bottom: 90px
+}
+
+@media (max-width: 991px) {
+  .mb-90 {
+    margin-bottom: 70px
+  }
+}
+
+@media (max-width: 767px) {
+  .mb-90 {
+    margin-bottom: 50px
+  }
+}
+
+.mb-15 {
+  margin-bottom: 15px
+}
+
+.mb-10 {
+  margin-bottom: 10px
+}
+
+.pt-80 {
+  padding-top: 80px
+}
+
+.pt-50 {
+  padding-top: 50px
+}
+
+.pt-40 {
+  padding-top: 40px
+}
+
+.pt-35 {
+  padding-top: 35px
+}
+
+.pt-30 {
+  padding-top: 30px
+}
+
+.pb-80 {
+  padding-bottom: 80px
+}
+
+.pb-60 {
+  padding-bottom: 60px
+}
+
+.mb-60 {
+  margin-bottom: 60px
+}
+
+@media (max-width: 1199px) {
+  .mb-60 {
+    margin-bottom: 50px
+  }
+}
+
+@media (max-width: 991px) {
+  .mb-60 {
+    margin-bottom: 40px
+  }
+}
+
+.mb-70 {
+  margin-bottom: 70px
+}
+
+@media (max-width: 767px) {
+  .mb-70 {
+    margin-bottom: 40px
+  }
+}
+
+.mb-45 {
+  margin-bottom: 45px
+}
+
+.mb-44 {
+  margin-bottom: 44px
+}
+
+@media (max-width: 991px) {
+  .mb-44 {
+    margin-bottom: 0
+  }
+}
+
+.mb-40 {
+  margin-bottom: 40px
+}
+
+@media (max-width: 991px) {
+  .mb-40 {
+    margin-bottom: 30px
+  }
+}
+
+.mb-35 {
+  margin-bottom: 35px
+}
+
+.mb-20 {
+  margin-bottom: 20px
+}
+
+.mt-15 {
+  margin-top: 15px
+}
+
+.mt-40 {
+  margin-top: 40px
+}
+
+.mt-35 {
+  margin-top: 35px
+}
+
+.mb-30 {
+  margin-bottom: 30px
+}
+
+.mb-25 {
+  margin-bottom: 25px
+}
+
+.mt-30 {
+  margin-top: 30px
+}
+
+.mt-50 {
+  margin-top: 50px
+}
+
+.mt-25 {
+  margin-top: 25px
+}
+
+.mb-50 {
+  margin-bottom: 50px
+}
+
+@media (max-width: 767px) {
+  .mb-50 {
+    margin-bottom: 40px
+  }
+}
+
+@media (max-width: 576px) {
+  .mb-50 {
+    margin-bottom: 30px
+  }
+}
+
+.mt-60 {
+  margin-top: 60px
+}
+
+@media (max-width: 767px) {
+  .mt-60 {
+    margin-top: 40px
+  }
+}
+
+.mt-70 {
+  margin-top: 70px
+}
+
+@media (max-width: 767px) {
+  .mt-70 {
+    margin-top: 40px
+  }
+}
+
 /* Container */
 .container {
   --bs-gutter-x: 1.5rem;
