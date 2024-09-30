@@ -19,13 +19,7 @@ namespace backend.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Width { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public int? StyleId { get; set; }
-        public int? MediumId { get; set; }
-        public string UserId { get; set; } = string.Empty;
-        public User User { get; set; }
-        public Style Style { get; set; }
-        public Medium Medium { get; set; }
-        public Auction Auction { get; set; }
         public Store Store { get; set; }
+        public Category Category { get; set; }
     }
 }

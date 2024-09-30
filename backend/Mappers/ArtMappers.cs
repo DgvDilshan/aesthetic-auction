@@ -18,11 +18,7 @@ namespace backend.Mappers
                 isFramed = artModel.isFramed,
                 Height = artModel.Height,
                 Width = artModel.Width,
-                CreatedOn = artModel.CreatedOn,
-                StyleId = artModel.StyleId,
-                MediumId = artModel.MediumId,
-                UserId = artModel.UserId,
-                
+                CreatedOn = artModel.CreatedOn,              
             };
         }
 
@@ -40,9 +36,6 @@ namespace backend.Mappers
                 isFramed = artDto.isFramed,
                 Height = artDto.Height,
                 Width = artDto.Width,
-                StyleId = artDto.StyleId,
-                MediumId = artDto.MediumId,
-                UserId = userId
             };
         }
 
@@ -66,8 +59,6 @@ namespace backend.Mappers
                 isFramed = artDto.isFramed,
                 Height = artDto.Height,
                 Width = artDto.Width,
-                StyleId = artDto.StyleId,
-                MediumId = artDto.MediumId
             };
         }
     }

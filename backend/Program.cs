@@ -59,11 +59,11 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<IStyleRepository, StyleRepository>();
-builder.Services.AddScoped<IMediumRepository, MediumRepository>();
+
 builder.Services.AddScoped<IArtRepository, ArtRepository>();
-builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
+//builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {

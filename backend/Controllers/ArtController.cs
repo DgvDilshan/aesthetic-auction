@@ -46,18 +46,6 @@ namespace backend.Controllers
             return Ok(art.ToArtDto());
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetByUser([FromRoute] string userId)
-        {
-            var art = await _artRepo.GetByUserAsync(userId);
-
-            if (art == null)
-            {
-                return NotFound();
-            }
-            return Ok(art.ToArtDto());
-        }
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(CreateArtRequestDto artDto)

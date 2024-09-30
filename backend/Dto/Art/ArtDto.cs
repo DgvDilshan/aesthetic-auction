@@ -1,7 +1,4 @@
-﻿using backend.Dto.Medium;
-using backend.Dto.Style;
-
-namespace backend.Dto.Art
+﻿namespace backend.Dto.Art
 {
     public class ArtDto
     {
@@ -15,9 +12,6 @@ namespace backend.Dto.Art
         public decimal Height { get; set; }
         public decimal Width { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public int? StyleId { get; set; }
-        public int? MediumId { get; set; }
-        public string UserId { get; set; } = string.Empty;
 
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Store : Migration
+    public partial class Category : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,29 +53,17 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Medium",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MediumType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Medium", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Style",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StyleType = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Style", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,66 +213,22 @@ namespace backend.Migrations
                     Height = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Width = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StyleId = table.Column<int>(type: "int", nullable: true),
-                    MediumId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StoreId = table.Column<int>(type: "int", nullable: false)
+                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Art", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Art_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Art_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Art_Medium_MediumId",
-                        column: x => x.MediumId,
-                        principalTable: "Medium",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Art_Store_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Store",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Art_Style_StyleId",
-                        column: x => x.StyleId,
-                        principalTable: "Style",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Auction",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ArtId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Auction", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Auction_Art_ArtId",
-                        column: x => x.ArtId,
-                        principalTable: "Art",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Auction_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -294,29 +238,19 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6a56eacb-0f40-42aa-bd37-8b6112b66613", null, "User", "USER" },
-                    { "cc03c151-3ffa-47ec-a756-a4834d4f5995", null, "Admin", "ADMIN" }
+                    { "94d1e0e2-4098-4d6a-8691-900300684e82", null, "User", "USER" },
+                    { "d4f9a688-d386-4c3b-85e4-08c7dd60c8c3", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Art_MediumId",
+                name: "IX_Art_CategoryId",
                 table: "Art",
-                column: "MediumId");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Art_StoreId",
                 table: "Art",
                 column: "StoreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Art_StyleId",
-                table: "Art",
-                column: "StyleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Art_UserId",
-                table: "Art",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -358,17 +292,6 @@ namespace backend.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Auction_ArtId",
-                table: "Auction",
-                column: "ArtId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Auction_UserId",
-                table: "Auction",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Store_UserId",
                 table: "Store",
                 column: "UserId",
@@ -378,6 +301,9 @@ namespace backend.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Art");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -394,22 +320,13 @@ namespace backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Auction");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Art");
-
-            migrationBuilder.DropTable(
-                name: "Medium");
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Store");
 
             migrationBuilder.DropTable(
-                name: "Style");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

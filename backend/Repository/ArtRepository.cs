@@ -25,10 +25,7 @@ namespace backend.Repository
         {
             return await _context.Art.FirstOrDefaultAsync(c => c.Id == id);
         }
-        public async Task<Art?> GetByUserAsync(string userId)
-        {
-            return await _context.Art.FirstOrDefaultAsync(c => c.UserId == userId);
-        }
+
         public async Task<Art?> UpdateAsync(int id, Art artModel)
         {
             var existingArt = await _context.Art.FindAsync(id);
@@ -45,8 +42,6 @@ namespace backend.Repository
             existingArt.isFramed = artModel.isFramed;
             existingArt.Height = artModel.Height;
             existingArt.Width = artModel.Width;
-            existingArt.StyleId = artModel.StyleId;
-            existingArt.MediumId = artModel.MediumId;
 
             await _context.SaveChangesAsync();
             return existingArt;
@@ -64,15 +59,6 @@ namespace backend.Repository
             _context.Art.Remove(artModel);
             await _context.SaveChangesAsync();
             return artModel;
-        }
-
-        public async Task<bool> StyleExists(int id)
-        {
-            return await _context.Style.AnyAsync(x => x.Id == id);
-        }
-        public async Task<bool> MediumExists(int id)
-        {
-            return await _context.Medium.AnyAsync(y => y.Id == id);
         }
 
     }

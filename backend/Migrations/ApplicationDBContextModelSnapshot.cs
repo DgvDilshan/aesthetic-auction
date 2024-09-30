@@ -51,13 +51,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cc03c151-3ffa-47ec-a756-a4834d4f5995",
+                            Id = "d4f9a688-d386-4c3b-85e4-08c7dd60c8c3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6a56eacb-0f40-42aa-bd37-8b6112b66613",
+                            Id = "94d1e0e2-4098-4d6a-8691-900300684e82",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -177,6 +177,9 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Condition")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -198,22 +201,12 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MediumId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StoreId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StyleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Width")
                         .HasColumnType("decimal(18,2)");
@@ -223,18 +216,14 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MediumId");
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("StoreId");
-
-                    b.HasIndex("StyleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Art");
                 });
 
-            modelBuilder.Entity("backend.Models.Auction", b =>
+            modelBuilder.Entity("backend.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,51 +231,17 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArtId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArtId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Auction");
-                });
-
-            modelBuilder.Entity("backend.Models.Medium", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("MediumType")
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Medium");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("backend.Models.Store", b =>
@@ -334,23 +289,6 @@ namespace backend.Migrations
                         .IsUnique();
 
                     b.ToTable("Store");
-                });
-
-            modelBuilder.Entity("backend.Models.Style", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("StyleType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Style");
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -471,10 +409,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Art", b =>
                 {
-                    b.HasOne("backend.Models.Medium", "Medium")
-                        .WithMany("Art")
-                        .HasForeignKey("MediumId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("backend.Models.Category", "Category")
+                        .WithMany("Arts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("backend.Models.Store", "Store")
                         .WithMany("Arts")
@@ -482,43 +421,9 @@ namespace backend.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.Style", "Style")
-                        .WithMany("Art")
-                        .HasForeignKey("StyleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany("Art")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Medium");
+                    b.Navigation("Category");
 
                     b.Navigation("Store");
-
-                    b.Navigation("Style");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.Models.Auction", b =>
-                {
-                    b.HasOne("backend.Models.Art", "Art")
-                        .WithOne("Auction")
-                        .HasForeignKey("backend.Models.Auction", "ArtId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.User", "User")
-                        .WithMany("Auction")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Art");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Store", b =>
@@ -532,15 +437,9 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.Models.Art", b =>
+            modelBuilder.Entity("backend.Models.Category", b =>
                 {
-                    b.Navigation("Auction")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("backend.Models.Medium", b =>
-                {
-                    b.Navigation("Art");
+                    b.Navigation("Arts");
                 });
 
             modelBuilder.Entity("backend.Models.Store", b =>
@@ -548,17 +447,8 @@ namespace backend.Migrations
                     b.Navigation("Arts");
                 });
 
-            modelBuilder.Entity("backend.Models.Style", b =>
-                {
-                    b.Navigation("Art");
-                });
-
             modelBuilder.Entity("backend.Models.User", b =>
                 {
-                    b.Navigation("Art");
-
-                    b.Navigation("Auction");
-
                     b.Navigation("Store")
                         .IsRequired();
                 });
