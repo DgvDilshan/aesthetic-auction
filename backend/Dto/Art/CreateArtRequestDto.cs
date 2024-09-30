@@ -4,6 +4,7 @@ namespace backend.Dto.Art
 {
     public class CreateArtRequestDto
     {
+        [Required]
         public string Lot { get; set; } = string.Empty;
         [Required]
         [MinLength(5, ErrorMessage = "Title must be 5 characters")]
@@ -20,6 +21,10 @@ namespace backend.Dto.Art
         public decimal Height { get; set; }
         [Required]
         public decimal Width { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
+        [Required]
+        public int StoreId { get; set; }
 
     }
 }

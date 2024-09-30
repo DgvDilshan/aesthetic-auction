@@ -18,6 +18,17 @@ namespace backend.Data
             base.OnModelCreating(builder);
 
                 //Art Model Relations
+                builder.Entity<Art>()
+                .HasOne(a => a.Store)
+                .WithMany(u => u.Arts)
+                .HasForeignKey(a => a.StoreId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                builder.Entity<Art>()
+                 .HasOne(a => a.Category)
+                 .WithMany(u => u.Arts)
+                 .HasForeignKey(a => a.CategoryId)
+                 .OnDelete(DeleteBehavior.Cascade);
 
                 //Auction Model Relations
 

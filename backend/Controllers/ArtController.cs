@@ -45,6 +45,20 @@ namespace backend.Controllers
 
             return Ok(art.ToArtDto());
         }
+        [HttpGet("category/{id}")]
+        public async Task<IActionResult> GetByCategory([FromRoute] int id)
+        {
+            var arts = await _artRepo.GetByCategoryAsync(id);
+            var artDto = arts.Select(s => s.ToArtDto());
+            return Ok(artDto);
+        }
+        [HttpGet("store/{id}")]
+        public async Task<IActionResult> GetByStore([FromRoute] int id)
+        {
+            var arts = await _artRepo.GetByStoreAsync(id);
+            var artDto = arts.Select(s => s.ToArtDto());
+            return Ok(artDto);
+        }
 
         [HttpPost]
         [Authorize]

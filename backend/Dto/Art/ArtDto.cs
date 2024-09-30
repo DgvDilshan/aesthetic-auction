@@ -12,6 +12,8 @@
         public decimal Height { get; set; }
         public decimal Width { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public int CategoryId { get; set; }
+        public int StoreId { get; set; }
 
     }
 }

@@ -19,5 +19,9 @@ namespace backend.Dto.Art
         public decimal Height { get; set; }
         [Required]
         public decimal Width { get; set; }
+        [Required]
+        public int StoreId { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240930075953_Category")]
-    partial class Category
+    [Migration("20240930154206_Art")]
+    partial class Art
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d4f9a688-d386-4c3b-85e4-08c7dd60c8c3",
+                            Id = "0e1eb931-f725-43df-9a0f-c095669aac78",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "94d1e0e2-4098-4d6a-8691-900300684e82",
+                            Id = "5687c643-ec65-47ba-8807-101a0f5bd0ef",
                             Name = "User",
                             NormalizedName = "USER"
                         });
