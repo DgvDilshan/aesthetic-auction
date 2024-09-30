@@ -15,7 +15,7 @@ export const howToSell = [
     stepNo: 3,
     stepType: 'Listing the Item',
     desc: 'Clearly state your pricing structure, payment terms and and any additional charges. Specifying when & payment invoices will be issued, as well as your accepted.',
-    link: '',
+    link: '/add-art',
   },
   {
     stepNo: 4,

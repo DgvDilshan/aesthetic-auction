@@ -21,6 +21,8 @@ const Navbar = () => {
     logout();
   };
 
+  const hasStore = localStorage.getItem('hasStore');
+
   return (
     <div className='navbar-wrapper'>
       <div className='top-nav'>
@@ -83,7 +85,7 @@ const Navbar = () => {
           <div className='main-menu'>
             <ul className='menu-list'>
               <li>
-                <a href=''>Home</a>
+                <a href='/'>Home</a>
               </li>
               <li>
                 <a href=''>Auction</a>
@@ -91,6 +93,11 @@ const Navbar = () => {
               <li>
                 <a href=''>Contact</a>
               </li>
+              {hasStore === '1' && (
+                <li>
+                  <a href=''>Store</a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

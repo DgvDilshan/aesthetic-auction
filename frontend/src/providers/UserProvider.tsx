@@ -61,6 +61,7 @@ export const UserProvider = ({ children }: Props) => {
             phoneNumber: res?.data.phoneNumber,
           };
           localStorage.setItem('user', JSON.stringify(userObj));
+          localStorage.setItem('hasStore', '0');
           setToken(res?.data.token);
           setUser(userObj!);
           toast.success('Account Created Successfully');
@@ -81,6 +82,7 @@ export const UserProvider = ({ children }: Props) => {
             phoneNumber: res?.data.phoneNumber,
           };
           localStorage.setItem('user', JSON.stringify(userObj));
+          localStorage.setItem('hasStore', '0');
           setToken(res?.data.token);
           setUser(userObj!);
           toast.success('Login Success');

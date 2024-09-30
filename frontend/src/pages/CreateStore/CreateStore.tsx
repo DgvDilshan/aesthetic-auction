@@ -8,8 +8,11 @@ import React, { useCallback, useState } from 'react';
 import PrimaryButton from '../../components/ui/Buttons/PrimaryButton/PrimaryButton';
 import { storePostApi } from '../../services/StoreServices';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const CreateStore = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [pno, setPno] = useState('');
@@ -88,6 +91,8 @@ const CreateStore = () => {
         .then((res) => {
           if (res) {
             toast.success('Store created successfully');
+            localStorage.setItem('hasStore', '1');
+            navigate('/');
           }
         })
         .catch((e) => {

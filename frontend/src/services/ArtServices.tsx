@@ -12,8 +12,7 @@ export const artPostAPI = async (
   isFramed: boolean,
   height: number,
   width: number,
-  styleId: number,
-  mediumId: number
+  categoryId: number
 ) => {
   try {
     const token = localStorage.getItem('token');
@@ -28,8 +27,7 @@ export const artPostAPI = async (
         isFramed: isFramed,
         height: height,
         width: width,
-        styleId: styleId,
-        mediumId: mediumId,
+        categoryId: categoryId,
       },
       {
         headers: {

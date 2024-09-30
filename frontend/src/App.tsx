@@ -7,9 +7,7 @@ import { UserProvider } from './providers/UserProvider';
 
 const App = () => {
   const location = useLocation();
-  const showNavbar = !['/login', '/signup', '/add-art'].includes(
-    location.pathname
-  );
+  const showNavbar = !['/login', '/signup'].includes(location.pathname);
   return (
     <>
       <UserProvider>
