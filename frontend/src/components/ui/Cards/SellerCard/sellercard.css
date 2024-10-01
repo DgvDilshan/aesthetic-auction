@@ -6,7 +6,8 @@
  .store-card-cover-photo {
   position: relative;
   border-radius: 14px 14px 0 0;
-  overflow: hidden
+  overflow: hidden;
+  height: 100px;
  }
 }
 

@@ -234,9 +234,9 @@ const AddArt = () => {
               </Col>
               <Col md={6}>
                 <Select
-                  label='Art Style'
-                  id='artStyle'
-                  name='artStyle'
+                  label='Category'
+                  id='category'
+                  name='category'
                   options={categoryOptions}
                   onChange={(e) => setCategoryValue(e.target.value)}
                 />

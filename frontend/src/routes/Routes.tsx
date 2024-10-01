@@ -10,6 +10,7 @@ import Profile from '../pages/Profile/Profile';
 import CreateStore from '../pages/CreateStore/CreateStore';
 import Sellers from '../pages/Sellers/Sellers';
 import SellerDetails from '../pages/Sellers/SellerDetails';
+import Categories from '../pages/Categories/Categories';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
       { path: 'signup', element: <Signup /> },
       { path: 'sellers', element: <Sellers /> },
       { path: 'seller-details', element: <SellerDetails /> },
+      { path: 'categories', element: <Categories /> },
       {
         path: 'add-art',
         element: (

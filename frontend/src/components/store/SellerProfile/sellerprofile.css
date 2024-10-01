@@ -5,7 +5,7 @@
 .store-details-section .store-details-profile-area .store-details-profile-cover-photo {
  position: relative;
  border-radius: 10px;
- overflow: hidden
+ overflow: hidden;
 }
 
 .store-details-section .store-details-profile-area .store-details-profile-cover-photo:before {
