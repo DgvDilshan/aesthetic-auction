@@ -7,6 +7,7 @@ using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -16,12 +17,16 @@ namespace backend.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly IArtRepository _artRepo;
+        private readonly IStoreRepository _storeRepo;
         private readonly UserManager<User> _userManager;
-        public ArtController(ApplicationDBContext context, UserManager<User> userManager, IArtRepository artRepo)
+        private readonly ILogger<ArtController> _logger;
+        public ArtController(ApplicationDBContext context, UserManager<User> userManager, IArtRepository artRepo, IStoreRepository storeRepo, ILogger<ArtController> logger)
         {
             _context = context;
             _artRepo = artRepo;
+            _storeRepo = storeRepo;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -65,24 +70,31 @@ namespace backend.Controllers
         public async Task<IActionResult> Create(CreateArtRequestDto artDto)
         {
             var username = User.GetUsername();
-
-            if (string.IsNullOrEmpty(username))
-            {
-                return BadRequest("Username cannot be null or empty");
-            }
-
             var user = await _userManager.FindByNameAsync(username);
 
-            if (user == null)
+            if(user == null)
             {
-                return NotFound("User not found");
+                return NotFound("User cannot be found");
             }
 
-            var userId = user.Id;
+            var store = await _context.Store.FirstOrDefaultAsync(x => x.UserId == user.Id);
 
-            var artModel = artDto.ToArtFromCreate(userId);
-            await _artRepo.CreateAsync(artModel);
-            return CreatedAtAction(nameof(GetById), new { id = artModel.Id }, artModel.ToArtDto());
+            if (store == null)
+            {
+                return NotFound("Create a store first");
+            }
+
+            try
+            {
+                var artModel = artDto.ToArtFromCreate(store.Id);
+                await _artRepo.CreateAsync(artModel);
+                return CreatedAtAction(nameof(GetById), new { id = artModel.Id }, artModel.ToArtDto());
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                return StatusCode(500, "An error occurred while creating the art: " + errorMessage);
+            }
         }
 
         [HttpDelete]

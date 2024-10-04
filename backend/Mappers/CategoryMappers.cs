@@ -11,7 +11,8 @@ namespace backend.Mappers
             {
                 Id = categoryModel.Id,
                 CategoryName = categoryModel.CategoryName,
-                Image = categoryModel.Image
+                Image = categoryModel.Image,
+                Icon = categoryModel.Icon,
             };
         }
 
@@ -19,7 +20,8 @@ namespace backend.Mappers
             return new Category
             {
                 CategoryName = createCategoryDto.CategoryName,
-                Image = createCategoryDto.Image
+                Image = createCategoryDto.Image,
+                Icon = createCategoryDto.Icon
             };
         }
 
@@ -29,6 +31,7 @@ namespace backend.Mappers
             {
                 CategoryName = categoryDto.CategoryName,
                 Image = categoryDto.Image,
+                Icon = categoryDto.Icon
             };
         }
     }

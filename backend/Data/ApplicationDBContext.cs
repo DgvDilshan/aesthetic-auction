@@ -17,32 +17,30 @@ namespace backend.Data
         {
             base.OnModelCreating(builder);
 
-                //Art Model Relations
-                builder.Entity<Art>()
-                .HasOne(a => a.Store)
-                .WithMany(u => u.Arts)
-                .HasForeignKey(a => a.StoreId)
+            //Art Model Relations
+            builder.Entity<Art>(x => x.HasKey(p => new { p.Id }));
+
+            builder.Entity<Art>()
+            .HasOne(a => a.Store)
+            .WithMany(u => u.Arts)
+            .HasForeignKey(a => a.StoreId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Art>()
+             .HasOne(a => a.Category)
+             .WithMany(u => u.Arts)
+             .HasForeignKey(a => a.CategoryId)
+             .OnDelete(DeleteBehavior.Restrict);
+            //Auction Model Relations
+
+            //Store Model Relations
+            builder.Entity<Store>(x => x.HasKey(p => new { p.Id }));
+
+            builder.Entity<Store>()
+                .HasOne(a => a.User)
+                .WithOne(u => u.Store)
+                .HasForeignKey<Store>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-                builder.Entity<Art>()
-                 .HasOne(a => a.Category)
-                 .WithMany(u => u.Arts)
-                 .HasForeignKey(a => a.CategoryId)
-                 .OnDelete(DeleteBehavior.Cascade);
-
-                //Auction Model Relations
-
-                //Store Model Relations
-                builder.Entity<Store>()
-                    .HasOne(a => a.User)
-                    .WithOne(u => u.Store)
-                    .HasForeignKey<Store>(a => a.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                builder.Entity<Store>()
-                    .HasMany(a => a.Arts)
-                    .WithOne(u => u.Store)
-                    .OnDelete(DeleteBehavior.Restrict);
 
             List<IdentityRole> roles = new List<IdentityRole>
             {
@@ -59,10 +57,10 @@ namespace backend.Data
             };
             builder.Entity<IdentityRole>().HasData(roles);
         }
-
+        public DbSet<Store> Store { get; set; }
         public DbSet<Art> Art { get; set; }
         public DbSet<Category> Category { get; set; }
-        public DbSet<Store> Store { get; set; }
+
 
     }
 }

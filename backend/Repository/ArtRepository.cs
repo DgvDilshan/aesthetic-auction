@@ -25,13 +25,13 @@ namespace backend.Repository
         {
             return await _context.Art.FirstOrDefaultAsync(c => c.Id == id);
         }
-        public async Task<List<Art>> GetByCategoryAsync(int id)
+        public async Task<List<Art?>> GetByCategoryAsync(int id)
         {
             return await _context.Art.Where(c => c.CategoryId == id).ToListAsync();
         }
-        public async Task<List<Art>> GetByStoreAsync(int id)
+        public async Task<List<Art?>> GetByStoreAsync(int id)
         {
-            return await _context.Art.Where(c => c.CategoryId == id).ToListAsync();
+            return await _context.Art.Where(c => c.StoreId == id).ToListAsync();
         }
         public async Task<Art?> UpdateAsync(int id, Art artModel)
         {

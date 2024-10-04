@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240930154206_Art")]
-    partial class Art
+    [Migration("20241004230759_Store")]
+    partial class Store
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0e1eb931-f725-43df-9a0f-c095669aac78",
+                            Id = "fade4b30-96ca-487e-9c65-8b0065321bfb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5687c643-ec65-47ba-8807-101a0f5bd0ef",
+                            Id = "978d5969-f4f2-4fcf-b8b8-e18fb3daca6e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -211,6 +211,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("Width")
                         .HasColumnType("decimal(18,2)");
 
@@ -222,6 +225,8 @@ namespace backend.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("StoreId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Art");
                 });
@@ -235,6 +240,10 @@ namespace backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -415,7 +424,7 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Category", "Category")
                         .WithMany("Arts")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("backend.Models.Store", "Store")
@@ -423,6 +432,10 @@ namespace backend.Migrations
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("backend.Models.User", null)
+                        .WithMany("Arts")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
@@ -434,7 +447,7 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.User", "User")
                         .WithOne("Store")
                         .HasForeignKey("backend.Models.Store", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -452,6 +465,8 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.User", b =>
                 {
+                    b.Navigation("Arts");
+
                     b.Navigation("Store")
                         .IsRequired();
                 });

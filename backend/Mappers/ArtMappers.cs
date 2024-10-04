@@ -24,7 +24,7 @@ namespace backend.Mappers
             };
         }
 
-        public static Art ToArtFromCreate(this CreateArtRequestDto artDto, string userId)
+        public static Art ToArtFromCreate(this CreateArtRequestDto artDto, int storeId)
         {
             string uniqueLot = GenerateUniqueLot();
 
@@ -38,8 +38,8 @@ namespace backend.Mappers
                 isFramed = artDto.isFramed,
                 Height = artDto.Height,
                 Width = artDto.Width,
-                StoreId = artDto.StoreId,
-                CategoryId = artDto.CategoryId
+                StoreId = storeId,
+                CategoryId = artDto.CategoryId,
             };
         }
 

@@ -40,6 +40,7 @@ namespace backend.Repository
 
             existingCategory.CategoryName = categoryModel.CategoryName;
             existingCategory.Image = categoryModel.Image;
+            existingCategory.Icon = categoryModel.Icon;
 
             await _context.SaveChangesAsync();
             return existingCategory;

@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
+    [Table("Store")]
     public class Store
     {
         [Key]
@@ -19,6 +21,7 @@ namespace backend.Models
         [Required]
         public string ProfilePhoto {  get; set; } = string.Empty;
         public DateTime CreatedOn { get; set; } = DateTime.Now;
+        [ForeignKey("ApplicationUser")]
         public string UserId { get; set; } = string.Empty;
         public User User { get; set; }
         public List<Art> Arts { get; set; } = new List<Art>();

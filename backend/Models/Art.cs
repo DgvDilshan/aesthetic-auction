@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
+    [Table("Art")]
     public class Art
     {
         [Key]
@@ -28,10 +29,12 @@ namespace backend.Models
         public decimal Width { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         [Required]
+        [ForeignKey("Store")]
         public int StoreId { get; set; }
-        public Store Store { get; set; } =  new Store();
+        public Store Store { get; set; }
         [Required]
+        [ForeignKey("Category")]
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = new Category();
+        public Category Category { get; set; }
     }
 }

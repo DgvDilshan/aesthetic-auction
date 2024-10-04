@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
+    [Table("ApplicationUser")]
     public class User: IdentityUser
     {
-        //public List<Auction> Auction { get; set; } = new List<Auction>();
-        public Store Store { get; set; }
+        public virtual Store Store { get; set; }
+        public List<Art> Arts { get; set; } = new List<Art>();
     }
 }
