@@ -55,3 +55,12 @@ export const storeGetByIdApi = async (id: string) => {
     handleError(error);
   }
 };
+
+export const storeGetByUser = async (id: string) => {
+  try {
+    const data = await axios.get<StoreGet>(`${api}/user/${id}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
