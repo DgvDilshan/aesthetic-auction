@@ -31,7 +31,7 @@ const AddArt = () => {
   const [categoryValue, setCategoryValue] = useState('');
   const [isFramed, setIsFramed] = useState('');
   const [toastShown, setToastShown] = useState(false);
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+  const [preview, setPreview] = useState<string | undefined | null>(null);
   const [categories, setCategories] = useState<
     CategoryGet[] | null | undefined
   >(null);
@@ -90,7 +90,7 @@ const AddArt = () => {
       const file = new FileReader();
 
       file.onload = () => {
-        setPreview(file.result);
+        setPreview(file.result as string | undefined);
       };
       file.readAsDataURL(acceptedFiles[0]);
 
@@ -100,8 +100,6 @@ const AddArt = () => {
   );
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
     useDropzone({ onDrop });
-
-  console.log(preview);
 
   const getCategories = async () => {
     try {
@@ -133,15 +131,15 @@ const AddArt = () => {
       }))
     : [];
 
-  const hasStore = localStorage.getItem('hasStore');
+  const storeId = localStorage.getItem('storeId');
 
   useEffect(() => {
-    if (hasStore === '0' && !toastShown) {
+    if (storeId === '0' && !toastShown) {
       toast.warning('You must create a store first');
       navigate('/create-store');
       setToastShown(true);
     }
-  }, [hasStore, toastShown, navigate]);
+  }, [storeId, toastShown, navigate]);
 
   return (
     <div>
@@ -179,6 +177,11 @@ const AddArt = () => {
                   getInputProps={getInputProps}
                   isDragActive={isDragActive}
                 />
+                {preview && (
+                  <div className='upload-image-profile'>
+                    <img src={preview} alt='Image' />
+                  </div>
+                )}
               </Col>
               <Col md={6} className='mb-20'>
                 <Input

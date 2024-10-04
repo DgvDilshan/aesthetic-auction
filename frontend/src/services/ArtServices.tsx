@@ -49,3 +49,12 @@ export const artGetAPI = async () => {
     handleError(error);
   }
 };
+
+export const artGetByStoreApi = async (storeId: number) => {
+  try {
+    const data = await axios.get<ArtGet>(`${api}/store/${storeId}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};

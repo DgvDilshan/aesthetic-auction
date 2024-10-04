@@ -11,6 +11,7 @@ export type ArtPost = {
 };
 
 export type ArtGet = {
+  id: number;
   lot: string;
   title: string;
   image: string;
@@ -19,7 +20,6 @@ export type ArtGet = {
   isFramed: boolean;
   Height: number;
   Width: number;
-  StyleId: number;
-  MediumId: number;
+  CategoryId: number;
   CreatedBy: number;
 };

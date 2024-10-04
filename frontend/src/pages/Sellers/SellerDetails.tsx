@@ -1,15 +1,22 @@
 import { useLocation } from 'react-router-dom';
 import Breadcrumb from '../../components/shared/Breadcrumb/Breadcrumb';
-import { Container } from 'react-bootstrap';
+import { Col, Container } from 'react-bootstrap';
 import SellerProfile from '../../components/store/SellerProfile/SellerProfile';
 import { useEffect, useState } from 'react';
 import { StoreGet } from '../../models/Store';
 import { storeGetByIdApi } from '../../services/StoreServices';
+import ProductWrapper from '../../components/ui/ProductWrapper/ProductWrapper';
+import { artGetByStoreApi } from '../../services/ArtServices';
+import { ArtGet } from '../../models/Art';
+import AuctionCard from '../../components/ui/Cards/AuctionCard/AuctionCard';
+import Filter from '../../components/ui/Filter/Filter';
 
 const SellerDetails = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
+  const [seller, setSeller] = useState<StoreGet[] | null | undefined>(null);
+  const [arts, setArts] = useState<ArtGet[] | null | undefined>(null);
 
   useEffect(() => {
     if (id) {
@@ -17,7 +24,11 @@ const SellerDetails = () => {
     }
   }, [id]);
 
-  const [seller, setSeller] = useState<StoreGet[] | null | undefined>(null);
+  useEffect(() => {
+    if (seller && seller[0]?.id) {
+      getArts(seller[0].id);
+    }
+  }, [seller]);
 
   const getSeller = async (id: string) => {
     try {
@@ -32,6 +43,22 @@ const SellerDetails = () => {
     } catch (error) {
       console.error(error);
       setSeller(null);
+    }
+  };
+
+  const getArts = async (storeId: number) => {
+    try {
+      const res = await artGetByStoreApi(storeId);
+
+      if (res?.data) {
+        const artsArray = Array.isArray(res.data) ? res.data : [res.data];
+        setArts(artsArray);
+      } else {
+        setArts(null);
+      }
+    } catch (error) {
+      console.error(error);
+      setArts(null);
     }
   };
 
@@ -52,6 +79,16 @@ const SellerDetails = () => {
         {seller?.map((sellerValues) => (
           <SellerProfile seller={sellerValues} key={sellerValues.id} />
         ))}
+
+        <Filter />
+
+        <ProductWrapper>
+          {arts?.map((art) => (
+            <Col xl={3} md={4}>
+              <AuctionCard art={art} key={art.id} />
+            </Col>
+          ))}
+        </ProductWrapper>
       </Container>
     </div>
   );

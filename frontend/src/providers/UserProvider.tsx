@@ -67,7 +67,7 @@ export const UserProvider = ({ children }: Props) => {
             phoneNumber: res?.data.phoneNumber,
           };
           localStorage.setItem('user', JSON.stringify(userObj));
-          localStorage.setItem('hasStore', '0');
+          localStorage.setItem('storeId', '0');
           setToken(res?.data.token);
           setUser(userObj!);
           setId(res?.data.id);
@@ -94,9 +94,9 @@ export const UserProvider = ({ children }: Props) => {
         const store = await storeGetByUser(res?.data.id);
 
         if (store?.data) {
-          localStorage.setItem('hasStore', '1');
+          localStorage.setItem('storeId', JSON.stringify(store.data.id));
         } else {
-          localStorage.setItem('hasStore', '0');
+          localStorage.setItem('storeId', '0');
         }
 
         setToken(res?.data.token);
@@ -117,7 +117,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('id');
-    localStorage.removeItem('hasStore');
+    localStorage.removeItem('storeId');
     setUser(null);
     setId('');
     setToken('');
