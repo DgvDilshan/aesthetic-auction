@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins",
-        builder => builder.WithOrigins("http://localhost:5173", "http://localhost:5174")
+        builder => builder.WithOrigins("http://localhost:5173","http://localhost:5174")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials()); 
@@ -117,8 +117,6 @@ app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigins");
 
 app.UseAuthentication();
-
-app.UseAuthorization();
 
 app.UseAuthorization();
 

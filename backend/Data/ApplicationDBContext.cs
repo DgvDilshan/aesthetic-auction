@@ -37,7 +37,7 @@ namespace backend.Data
                     .HasOne(a => a.User)
                     .WithOne(u => u.Store)
                     .HasForeignKey<Store>(a => a.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 builder.Entity<Store>()
                     .HasMany(a => a.Arts)

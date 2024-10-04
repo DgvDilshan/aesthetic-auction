@@ -20,7 +20,7 @@ namespace backend.Models
         public string ProfilePhoto {  get; set; } = string.Empty;
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string UserId { get; set; } = string.Empty;
-        public User User { get; set; } 
+        public User User { get; set; }
         public List<Art> Arts { get; set; } = new List<Art>();
 
     }

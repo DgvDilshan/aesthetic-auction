@@ -17,6 +17,7 @@ namespace backend.Dto.Store
         public string CoverPhoto {  get; set; } = string.Empty;
         [Required]
         public string ProfilePhoto {  get; set; } = string.Empty;
+      
 
     }
 }
