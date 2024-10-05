@@ -1,4 +1,5 @@
 ﻿using backend.Data;
+using backend.Helpers;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +30,10 @@ namespace backend.Repository
         {
             return await _context.Art.Where(c => c.CategoryId == id).ToListAsync();
         }
-        public async Task<List<Art?>> GetByStoreAsync(int id)
+        public async Task<List<Art?>> GetByStoreAsync(int id, QueryObject query)
         {
-            return await _context.Art.Where(c => c.StoreId == id).ToListAsync();
+            var skipNumber = (query.PageNumber - 1) * query.PageSize;
+            return await _context.Art.Where(c => c.StoreId == id).Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
         public async Task<Art?> UpdateAsync(int id, Art artModel)
         {
@@ -68,6 +70,10 @@ namespace backend.Repository
             _context.Art.Remove(artModel);
             await _context.SaveChangesAsync();
             return artModel;
+        }
+        public async Task<int> CountAsync(int id)
+        {
+            return await _context.Art.CountAsync(c => c.StoreId == id);
         }
 
     }

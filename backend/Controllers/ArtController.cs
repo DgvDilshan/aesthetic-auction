@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.Dto.Art;
 using backend.Extensions;
+using backend.Helpers;
 using backend.Interfaces;
 using backend.Mappers;
 using backend.Models;
@@ -58,11 +59,17 @@ namespace backend.Controllers
             return Ok(artDto);
         }
         [HttpGet("store/{id}")]
-        public async Task<IActionResult> GetByStore([FromRoute] int id)
+        public async Task<IActionResult> GetByStore([FromRoute] int id,[FromQuery] QueryObject query)
         {
-            var arts = await _artRepo.GetByStoreAsync(id);
+            var arts = await _artRepo.GetByStoreAsync(id, query);
             var artDto = arts.Select(s => s.ToArtDto());
-            return Ok(artDto);
+            var totalArtCount = await _artRepo.CountAsync(id);
+
+            return Ok(new
+            {
+                TotalCount = totalArtCount,
+                Arts = artDto
+            });
         }
 
         [HttpPost]
