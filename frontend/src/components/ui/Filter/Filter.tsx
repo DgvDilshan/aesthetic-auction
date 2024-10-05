@@ -1,14 +1,25 @@
 import { RiEqualizerLine } from '@remixicon/react';
 
 import './filter.css';
+import { useSnapshot } from 'valtio';
+import state from '../../../store';
 
-const Filter = () => {
+type Props = {
+  items: number;
+};
+
+const Filter = ({ items }: Props) => {
+  const snap = useSnapshot(state);
+
   return (
     <div className='auction-grid-title-section mb-40'>
-      <h6>Showing 1–8 of 11 results</h6>
+      <h6>Showing 1–10 of {items} results</h6>
 
       <div className='filter-selector'>
-        <div className='filter'>
+        <div
+          className='filter'
+          onClick={() => (state.filterSidebar = !snap.filterSidebar)}
+        >
           <div className='filter-icon'>
             <RiEqualizerLine size={24} />
           </div>

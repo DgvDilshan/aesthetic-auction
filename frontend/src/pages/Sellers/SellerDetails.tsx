@@ -7,16 +7,21 @@ import { StoreGet } from '../../models/Store';
 import { storeGetByIdApi } from '../../services/StoreServices';
 import ProductWrapper from '../../components/ui/ProductWrapper/ProductWrapper';
 import { artGetByStoreApi } from '../../services/ArtServices';
-import { ArtGet } from '../../models/Art';
+import { Art } from '../../models/Art';
 import AuctionCard from '../../components/ui/Cards/AuctionCard/AuctionCard';
 import Filter from '../../components/ui/Filter/Filter';
+import Pagination from '../../components/ui/Pagination/Pagination';
+import PaginationItem from '../../components/ui/Pagination/PaginationItem';
 
 const SellerDetails = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get('id');
   const [seller, setSeller] = useState<StoreGet[] | null | undefined>(null);
-  const [arts, setArts] = useState<ArtGet[] | null | undefined>(null);
+  const [arts, setArts] = useState<Art[] | null | undefined>(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     if (id) {
@@ -26,9 +31,9 @@ const SellerDetails = () => {
 
   useEffect(() => {
     if (seller && seller[0]?.id) {
-      getArts(seller[0].id);
+      getArts(seller[0].id, pageNumber, pageSize);
     }
-  }, [seller]);
+  }, [seller, pageNumber, pageSize]);
 
   const getSeller = async (id: string) => {
     try {
@@ -46,13 +51,19 @@ const SellerDetails = () => {
     }
   };
 
-  const getArts = async (storeId: number) => {
+  const getArts = async (storeId: number, page: number, size: number) => {
     try {
-      const res = await artGetByStoreApi(storeId);
+      const res = await artGetByStoreApi(storeId, {
+        pageNumber: page,
+        pageSize: size,
+      });
 
       if (res?.data) {
-        const artsArray = Array.isArray(res.data) ? res.data : [res.data];
+        const artsArray = Array.isArray(res.data.arts)
+          ? res.data.arts
+          : [res.data.arts];
         setArts(artsArray);
+        setTotalPages(Math.ceil(res?.data.totalCount / size));
       } else {
         setArts(null);
       }
@@ -60,6 +71,10 @@ const SellerDetails = () => {
       console.error(error);
       setArts(null);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setPageNumber(page);
   };
 
   return (
@@ -80,7 +95,7 @@ const SellerDetails = () => {
           <SellerProfile seller={sellerValues} key={sellerValues.id} />
         ))}
 
-        <Filter />
+        <Filter items={pageSize} />
 
         <ProductWrapper>
           {arts?.map((art) => (
@@ -89,6 +104,18 @@ const SellerDetails = () => {
             </Col>
           ))}
         </ProductWrapper>
+
+        <Pagination>
+          {[...Array(totalPages)].map((_, index) => (
+            <PaginationItem
+              key={index + 1}
+              active={index + 1}
+              handleClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </PaginationItem>
+          ))}
+        </Pagination>
       </Container>
     </div>
   );

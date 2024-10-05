@@ -10,7 +10,7 @@ export type ArtPost = {
   MediumId: number;
 };
 
-export type ArtGet = {
+export type Art = {
   id: number;
   lot: string;
   title: string;
@@ -22,4 +22,9 @@ export type ArtGet = {
   Width: number;
   CategoryId: number;
   CreatedBy: number;
+};
+
+export type ArtGet = {
+  arts: Art[];
+  totalCount: number;
 };

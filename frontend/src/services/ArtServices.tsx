@@ -50,9 +50,18 @@ export const artGetAPI = async () => {
   }
 };
 
-export const artGetByStoreApi = async (storeId: number) => {
+export const artGetByStoreApi = async (
+  storeId: number,
+  query: { pageNumber: number; pageSize: number }
+) => {
   try {
-    const data = await axios.get<ArtGet>(`${api}/store/${storeId}`);
+    const { pageNumber, pageSize } = query;
+    const data = await axios.get<ArtGet>(`${api}/store/${storeId}`, {
+      params: {
+        pageNumber,
+        pageSize,
+      },
+    });
     return data;
   } catch (error) {
     handleError(error);
