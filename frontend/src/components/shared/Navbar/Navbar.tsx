@@ -114,7 +114,7 @@ const Navbar = () => {
 
           {isLoggedIn() ? (
             <>
-              <a href='/profile' className='my-acc-btn'>
+              <a href='/dashboard' className='my-acc-btn'>
                 <RiUserFill size={15} color='#fff' />
                 My Account
                 <span></span>

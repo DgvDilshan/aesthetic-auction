@@ -4,7 +4,6 @@ import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
 import ProtectedRoute from './ProtectedRoute';
-import AddArt from '../pages/AddArt/AddArt';
 import HowtoSell from '../pages/HowtoSell/HowtoSell';
 import Profile from '../pages/Profile/Profile';
 import CreateStore from '../pages/CreateStore/CreateStore';
@@ -25,15 +24,7 @@ export const router = createBrowserRouter([
       { path: 'seller-details', element: <SellerDetails /> },
       { path: 'categories', element: <Categories /> },
       {
-        path: 'add-art',
-        element: (
-          <ProtectedRoute>
-            <AddArt />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: 'profile',
+        path: 'dashboard',
         element: (
           <ProtectedRoute>
             <Profile />

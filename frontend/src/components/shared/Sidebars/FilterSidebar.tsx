@@ -1,7 +1,7 @@
 import { useSnapshot } from 'valtio';
 
 import state from '../../../store';
-import './filtersidebar.css';
+import './sidebar.css';
 
 const FilterSidebar = () => {
   const snap = useSnapshot(state);

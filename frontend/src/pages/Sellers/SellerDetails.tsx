@@ -98,9 +98,9 @@ const SellerDetails = () => {
         <Filter items={pageSize} />
 
         <ProductWrapper>
-          {arts?.map((art) => (
-            <Col xl={3} md={4}>
-              <AuctionCard art={art} key={art.id} />
+          {arts?.map((art, index) => (
+            <Col xl={3} md={4} key={index}>
+              <AuctionCard art={art} />
             </Col>
           ))}
         </ProductWrapper>
