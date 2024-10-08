@@ -12,11 +12,20 @@ import BidButton from '../../components/ui/Buttons/BidButton/BidButton';
 import AddArt from '../Dashboard/AddArt/AddArt';
 import { sellerDashboard } from '../../data/sellerDashboard';
 import Arts from '../Dashboard/Arts/Arts';
+import { useAuth } from '../../context/useAuth';
+import StartAuction from '../Dashboard/StartAuction/StartAuction';
+import Auctions from '../Dashboard/Auctions/Auctions';
 
 const Profile = () => {
+  const { logout } = useAuth();
+
   const snap = useSnapshot(state);
 
   const hasStore = localStorage.getItem('hasStore');
+
+  const handleLogout = () => {
+    logout();
+  };
 
   const renderComponent = () => {
     if (hasStore === '0' && snap.switchToSeller === false) {
@@ -25,6 +34,9 @@ const Profile = () => {
           return <Dashboard />;
         case 'MyAuction':
           return <MyAuction />;
+        case 'Logout':
+          handleLogout();
+          break;
         default:
           return <Dashboard />;
       }
@@ -36,10 +48,23 @@ const Profile = () => {
           return <Arts />;
         case 'AddArt':
           return <AddArt />;
+        case 'Auctions':
+          return <Auctions />;
+        case 'StartAuction':
+          return <StartAuction />;
         default:
           <Dashboard />;
       }
     }
+  };
+
+  const handleSwitch = () => {
+    if (snap.switchToSeller == true) {
+      state.switchToSeller = false;
+    } else {
+      state.switchToSeller = true;
+    }
+    state.dashboardSelected = 'Dashboard';
   };
 
   return (
@@ -62,14 +87,14 @@ const Profile = () => {
               text='Switch to Seller'
               size='lg'
               variant='nonActive'
-              onClick={() => (state.switchToSeller = true)}
+              onClick={handleSwitch}
             />
           ) : (
             <BidButton
               text='Switch to Buyer'
               size='lg'
               variant='nonActive'
-              onClick={() => (state.switchToSeller = false)}
+              onClick={handleSwitch}
             />
           )}
           <div className='dashboard-wrapper'>

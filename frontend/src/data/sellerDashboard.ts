@@ -3,6 +3,7 @@ import {
   RiAuctionLine,
   RiArtboardLine,
   RiArtboard2Line,
+  RiLogoutBoxRLine,
 } from '@remixicon/react';
 
 export const sellerDashboard = [
@@ -22,8 +23,18 @@ export const sellerDashboard = [
     icon: RiArtboardLine,
   },
   {
+    item: 'Auctions',
+    component: 'Auctions',
+    icon: RiAuctionLine,
+  },
+  {
     item: 'Start Auction',
     component: 'StartAuction',
     icon: RiAuctionLine,
+  },
+  {
+    item: 'Logout',
+    component: 'Logout',
+    icon: RiLogoutBoxRLine,
   },
 ];

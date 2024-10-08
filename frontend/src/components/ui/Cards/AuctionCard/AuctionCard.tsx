@@ -18,14 +18,14 @@ const AuctionCard = ({ art }: AuctionCardProps) => {
     <div className='auction-card'>
       <div className='auction-card-wrapper'>
         <a href='' className='card-image'>
-          <img src={art.image} alt='auc' />
+          <img src={art?.image} alt='auc' />
         </a>
         <div className='batch'>
           <span className='live'>
             <RiAuctionFill size={16} /> Live
           </span>
           <div className='code-no'>
-            <span className='code'>LOT #{art.lot}</span>
+            <span className='code'>LOT #{art?.lot}</span>
           </div>
         </div>
 

@@ -2,6 +2,7 @@ import {
   RiDashboardHorizontalLine,
   RiAuctionLine,
   RiWalletLine,
+  RiLogoutBoxRLine,
 } from '@remixicon/react';
 
 export const buyerDashboard = [
@@ -19,5 +20,10 @@ export const buyerDashboard = [
     item: 'Payment',
     component: 'Payment',
     icon: RiWalletLine,
+  },
+  {
+    item: 'Logout',
+    component: 'Logout',
+    icon: RiLogoutBoxRLine,
   },
 ];

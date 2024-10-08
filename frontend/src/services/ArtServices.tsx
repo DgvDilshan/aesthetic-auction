@@ -67,3 +67,12 @@ export const artGetByStoreApi = async (
     handleError(error);
   }
 };
+
+export const artGetByIdApi = async (id: number) => {
+  try {
+    const data = await axios.get<ArtGet>(`${api}/${id}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
