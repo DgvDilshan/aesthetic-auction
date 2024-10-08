@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { handleError } from '../handlers/ErrorHandler';
-import { ArtGet, ArtPost } from '../models/Art';
+import { Art, ArtGet, ArtPost } from '../models/Art';
 
 const api = 'http://localhost:5256/backend/art';
 
@@ -70,7 +70,7 @@ export const artGetByStoreApi = async (
 
 export const artGetByIdApi = async (id: number) => {
   try {
-    const data = await axios.get<ArtGet>(`${api}/${id}`);
+    const data = await axios.get<Art>(`${api}/${id}`);
     return data;
   } catch (error) {
     handleError(error);

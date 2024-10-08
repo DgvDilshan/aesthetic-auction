@@ -5,15 +5,17 @@ import { handleError } from '../handlers/ErrorHandler';
 const api = 'http://localhost:5256/backend/auction';
 
 export const auctionPostApi = async (
-  startDate: Date,
-  endDate: Date,
+  startDate: string,
+  endDate: string,
   artId: number
 ) => {
   try {
     const token = localStorage.getItem('token');
 
-    const formattedStartDate = startDate.toISOString();
-    const formattedEndDate = endDate.toISOString();
+    const formattedStartDate =
+      new Date(startDate).toISOString().split('.')[0] + '.0000000';
+    const formattedEndDate =
+      new Date(endDate).toISOString().split('.')[0] + '.0000000';
 
     const data = await axios.post<AuctionPost>(
       api,

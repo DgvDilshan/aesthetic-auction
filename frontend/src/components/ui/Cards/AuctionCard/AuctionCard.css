@@ -43,7 +43,8 @@
    padding: 6px 12px;
   }
 
-  .live {
+  .live,
+  .upcoming {
    color: var(--white-color);
    font-family: var(--font-dmsans);
    font-size: 12px;
@@ -52,10 +53,17 @@
    display: inline-flex;
    align-items: center;
    gap: 4px;
-   background-color: #b90101;
    border-radius: 3px;
    padding: 6px 10px;
    margin-bottom: 5px;
+  }
+
+  .live {
+   background-color: #b90101;
+  }
+
+  .upcoming {
+   background-color: #2092e4;
   }
  }
 

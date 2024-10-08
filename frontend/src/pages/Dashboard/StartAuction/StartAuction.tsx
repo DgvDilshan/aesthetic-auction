@@ -17,8 +17,8 @@ type Option = {
 const StartAuction = () => {
   const [arts, setArts] = useState<Art[] | undefined | null>(null);
   const [artValue, setArtValue] = useState('');
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
@@ -62,6 +62,22 @@ const StartAuction = () => {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
+    const now = new Date();
+    const selectedStartDate = new Date(startDate);
+    const selectedEndDate = new Date(endDate);
+
+    if (selectedStartDate < now) {
+      alert(
+        'The Start Date cannot be in the past. Please select a valid future date.'
+      );
+      return;
+    }
+
+    if (selectedEndDate <= selectedStartDate) {
+      alert('The End Date must be later than the Start Date.');
+      return;
+    }
+
     if (startDate && endDate) {
       console.log(startDate);
       auctionPostApi(startDate, endDate, parseInt(artValue));
@@ -75,22 +91,22 @@ const StartAuction = () => {
       <Form onSubmit={handleSubmit}>
         <Col md={6} className='mb-20'>
           <Input
-            label='Auction Start Date'
-            type='date'
+            label='Auction Start Date & Time'
+            type='datetime-local'
             id='startDate'
             name='startDate'
-            value={startDate ? startDate.toISOString().split('T')[0] : ''}
-            onChange={(e) => setStartDate(new Date(e.target.value))}
+            value={startDate ? startDate : ''}
+            onChange={(e) => setStartDate(e.target.value)}
           />
         </Col>
         <Col md={6} className='mb-20'>
           <Input
-            label='Auction End Date'
-            type='date'
+            label='Auction End Date & Time'
+            type='datetime-local'
             id='endDate'
             name='endDate'
-            value={endDate ? endDate.toISOString().split('T')[0] : ''}
-            onChange={(e) => setEndDate(new Date(e.target.value))}
+            value={endDate ? endDate : ''}
+            onChange={(e) => setEndDate(e.target.value)}
           />
         </Col>
         <Col md={6} className='mb-20'>
