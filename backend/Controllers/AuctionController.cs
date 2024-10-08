@@ -97,6 +97,16 @@ namespace backend.Controllers
 
             var auctionModel = auctionDto.ToCreateAuctionDto(userId);
 
+            if (auctionModel.StartDate < DateTime.Now)
+            {
+                return BadRequest("Enter a valid Start Date. The Start Date cannot be in the past.");
+            }
+
+            if (auctionModel.EndDate <= auctionModel.StartDate)
+            {
+                return BadRequest("End Date must be later than Start Date.");
+            }
+
             if (auctionModel.StartDate.Date > DateTime.Now.Date)
             {
                 auctionModel.Status = "Pending";
@@ -104,10 +114,6 @@ namespace backend.Controllers
             else if (auctionModel.StartDate.Date == DateTime.Now.Date)
             {
                 auctionModel.Status = "Active";
-            }
-            else if (auctionModel.StartDate.Date < DateTime.Now.Date) 
-            { 
-                return BadRequest("Enter a valid Start Date");
             }
 
             await _auctionRepo.CreateAsync(auctionModel);

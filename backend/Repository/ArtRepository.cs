@@ -25,6 +25,7 @@ namespace backend.Repository
         }
         public async Task<Art?> GetByIdAsync(int id)
         {
+
             return await _context.Art.FirstOrDefaultAsync(c => c.Id == id);
         }
         public async Task<List<Art?>> GetByCategoryAsync(int id)
