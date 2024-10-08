@@ -31,7 +31,20 @@ namespace backend.Data
              .WithMany(u => u.Arts)
              .HasForeignKey(a => a.CategoryId)
              .OnDelete(DeleteBehavior.Restrict);
+
             //Auction Model Relations
+            builder.Entity<Auction>()
+                .HasOne(a => a.Art)
+                .WithOne(u => u.Auction)
+                .HasForeignKey<Auction>(a => a.ArtId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //Bid Model Relations
+            builder.Entity<Bid>()
+                .HasOne(a => a.Auction)
+                .WithMany(u => u.Bids)
+                .HasForeignKey(a => a.AuctionId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //Store Model Relations
             builder.Entity<Store>(x => x.HasKey(p => new { p.Id }));
@@ -59,6 +72,7 @@ namespace backend.Data
         }
         public DbSet<Store> Store { get; set; }
         public DbSet<Art> Art { get; set; }
+        public DbSet<Auction> Auction { get; set; }
         public DbSet<Category> Category { get; set; }
 
 

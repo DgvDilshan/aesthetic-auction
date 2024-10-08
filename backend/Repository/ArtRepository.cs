@@ -13,6 +13,7 @@ namespace backend.Repository
             _context = context;
         }
 
+
         public async Task<List<Art>> GetAllAsync(){
             return await _context.Art.ToListAsync();
         }

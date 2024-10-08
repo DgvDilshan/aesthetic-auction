@@ -1,98 +1,145 @@
-﻿//using backend.Data;
-//using backend.Dto.Auction;
-//using backend.Interfaces;
-//using backend.Mappers;
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Http.HttpResults;
-//using Microsoft.AspNetCore.Mvc;
+﻿using backend.Data;
+using backend.Dto.Auction;
+using backend.Extensions;
+using backend.Interfaces;
+using backend.Mappers;
+using backend.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace backend.Controllers
-//{
-//    [Route("backend/auction")]
-//    [ApiController]
-//    public class AuctionController: ControllerBase
-//    {
-//        private readonly ApplicationDBContext _context;
-//        private readonly IAuctionRepository _auctionRepo;
+namespace backend.Controllers
+{
+    [Route("backend/auction")]
+    [ApiController]
+    public class AuctionController: ControllerBase
+    {
+        private readonly ApplicationDBContext _context;
+        private readonly IAuctionRepository _auctionRepo;
+        private readonly UserManager<User> _userManager;
 
-//        public AuctionController(ApplicationDBContext context, IAuctionRepository auctionRepo)
-//        {
-//            _context = context;
-//            _auctionRepo = auctionRepo;
-//        }
+       public AuctionController(ApplicationDBContext context, IAuctionRepository auctionRepo, UserManager<User> userManager)
+       {
+           _context = context;
+           _auctionRepo = auctionRepo;
+           _userManager = userManager;
+        }
 
-//        [HttpGet]
-//        public async Task<IActionResult> GetAll()
-//        {
-//            var auctions = await _auctionRepo.GetAllAsync();
-//            var auctionDto = auctions.Select(s => s.ToAuctionDto());
+       [HttpGet]
+       public async Task<IActionResult> GetAll()
+        {
+            var auctions = await _auctionRepo.GetAllAsync();
+            var auctionDto = auctions.Select(s => s.ToAuctionDto());
 
-//            return Ok(auctionDto);
-//        }
+           return Ok(auctionDto);
+        }
 
-//        [HttpGet("{id}")]
-//        public async Task<IActionResult> GetById([FromRoute] int id)
-//        {
-//            var auction = await _auctionRepo.GetByIdAsync(id);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+           var auction = await _auctionRepo.GetByIdAsync(id);
 
-//            if (auction == null) 
-//            {
-//                return NotFound();
-//            }
+            if (auction == null) 
+            {
+                return NotFound();
+           }
 
-//            return Ok(auction.ToAuctionDto());
-//        }
+           return Ok(auction.ToAuctionDto());
+       }
 
-//        [HttpGet("art/{artId}")]
-//        public async Task<IActionResult> GetByArtId([FromRoute] int artId)
-//        {
-//            var auction = await _auctionRepo.GetByArtId(artId);
+       [HttpGet("art/{artId}")]
+        public async Task<IActionResult> GetByArtId([FromRoute] int artId)
+        {
+            var auction = await _auctionRepo.GetByArtId(artId);
 
-//            if(auction == null)
-//            {
-//                return NotFound();
-//            }
+            if(auction == null)
+            {
+                return NotFound();
+            }
 
-//            return Ok(auction.ToAuctionDto());
-//        }
+            return Ok(auction.ToAuctionDto());
+        }
 
-//        [HttpPost]
-//        [Authorize]
-//        public async Task<IActionResult> Create(CreateAuctionDto auctionDto)
-//        {
-//            var auctionModel = auctionDto.ToCreateAuctionDto();
-//            await _auctionRepo.CreateAsync(auctionModel);
-//            return CreatedAtAction(nameof(GetById), new {id = auctionModel}, auctionModel.ToAuctionDto());
-//        }
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUser([FromRoute] string userId)
+        {
+            var auction = await _auctionRepo.GetByUserAsync(userId);
 
-//        [HttpDelete]
-//        [Route("{id}")]
-//        [Authorize]
-//        public async Task<IActionResult> Delete([FromRoute] int id)
-//        {
-//            var auctionModel = await _auctionRepo.DeleteAsync(id);
+            if (auction == null)
+            {
+                return NotFound();
+            }
 
-//            if(auctionModel == null)
-//            {
-//                return NotFound();
-//            }
+            return Ok(auction.ToAuctionDto());
+        }
 
-//            return NoContent();
-//        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Create(CreateAuctionDto auctionDto)
+        {
 
-//        [HttpPut]
-//        [Route("{id}")]
-//        [Authorize]
-//        public async Task<IActionResult> Update([FromRoute] int id, UpdateAuctionDto auctionDto)
-//        {
-//            var auctionModel = await _auctionRepo.UpdateAsync(id, auctionDto.ToUpdateAuctionDto(id));
+            var username = User.GetUsername();
 
-//            if(auctionModel == null)
-//            {
-//                return NotFound();
-//            }
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Username cannot be null or empty");
+            }
 
-//            return Ok(auctionModel.ToAuctionDto());
-//        }
-//    }
-//}
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var userId = user.Id;
+
+            var auctionModel = auctionDto.ToCreateAuctionDto(userId);
+
+            if (auctionModel.StartDate.Date > DateTime.Now.Date)
+            {
+                auctionModel.Status = "Pending";
+            }
+            else if (auctionModel.StartDate.Date == DateTime.Now.Date)
+            {
+                auctionModel.Status = "Active";
+            }
+            else if (auctionModel.StartDate.Date < DateTime.Now.Date) 
+            { 
+                return BadRequest("Enter a valid Start Date");
+            }
+
+            await _auctionRepo.CreateAsync(auctionModel);
+            return CreatedAtAction(nameof(GetById), new {id = auctionModel}, auctionModel.ToAuctionDto());
+        }
+
+       [HttpDelete]
+        [Route("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+       {
+           var auctionModel = await _auctionRepo.DeleteAsync(id);
+
+            if(auctionModel == null)
+            {
+                return NotFound();
+            }
+           return NoContent();
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Update([FromRoute] int id, UpdateAuctionDto auctionDto)
+        {
+            var auctionModel = await _auctionRepo.UpdateAsync(id, auctionDto.ToUpdateAuctionDto(id));
+
+            if(auctionModel == null)
+            {
+                return NotFound();
+            }
+            return Ok(auctionModel.ToAuctionDto());
+       }
+   }
+}
