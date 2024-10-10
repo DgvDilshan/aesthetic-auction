@@ -1,19 +1,24 @@
-import './AuctionCard.css';
 import {
   RiAuctionFill,
   RiHeartLine,
   RiEyeLine,
   RiCalendarTodoFill,
+  RiCheckDoubleLine,
 } from '@remixicon/react';
-import BidButton from '../../Buttons/BidButton/BidButton';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useSnapshot } from 'valtio';
 
-interface Art {
+import BidButton from '../../Buttons/BidButton/BidButton';
+import './AuctionCard.css';
+import state from '../../../../store';
+
+type Art = {
   title: string;
   image: string;
   lot: string;
   currentMarketPrice: number;
-}
+};
 
 type AuctionCardProps = {
   art: Art;
@@ -23,6 +28,9 @@ type AuctionCardProps = {
 };
 
 const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
+  const location = useLocation();
+  const snap = useSnapshot(state);
+
   const [remainingTime, setRemainingTime] = useState({
     days: 0,
     hours: 0,
@@ -41,9 +49,9 @@ const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
     if (!startDate || !endDate) return;
 
     const calculateAuctionDuration = () => {
-      const start = new Date(startDate).getTime();
+      const now = new Date().getTime();
       const end = new Date(endDate).getTime();
-      const timeDiff = end - start;
+      const timeDiff = end - now;
 
       if (timeDiff > 0) {
         const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
@@ -60,6 +68,9 @@ const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
     };
 
     calculateAuctionDuration();
+    const interval = setInterval(calculateAuctionDuration, 1000);
+
+    return () => clearInterval(interval);
   }, [startDate, endDate]);
 
   useEffect(() => {
@@ -87,28 +98,36 @@ const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
     calculateRemainingTime();
     const interval = setInterval(calculateRemainingTime, 1000);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, [startDate]);
+
+  const showButtons = !['/dashboard'].includes(location.pathname);
 
   return (
     <div className='auction-card'>
       <div className='auction-card-wrapper'>
         <a href='' className='card-image'>
-          <img src={art?.image} alt='auc' />
+          <img src={art.image} alt='auc' />
         </a>
+
         <div className='batch'>
-          {status === 'Active' ? (
-            <span className='live'>
-              <RiAuctionFill size={16} /> Live
-            </span>
-          ) : (
-            <span className='upcoming'>
-              <RiCalendarTodoFill size={16} /> Upcoming
-            </span>
-          )}
+          {snap.dashboardSelected !== 'MyArts' &&
+            (status === 'Active' ? (
+              <span className='live'>
+                <RiAuctionFill size={16} /> Live
+              </span>
+            ) : status === 'Pending' ? (
+              <span className='upcoming'>
+                <RiCalendarTodoFill size={16} /> Upcoming
+              </span>
+            ) : (
+              <span className='completed'>
+                <RiCheckDoubleLine size={16} /> Completed
+              </span>
+            ))}
 
           <div className='code-no'>
-            <span className='code'>LOT #{art?.lot}</span>
+            <span className='code'>LOT #{art.lot}</span>
           </div>
         </div>
 
@@ -125,57 +144,59 @@ const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
           </li>
         </ul>
 
-        <div className='countdown-timer'>
-          <ul data-countdown='2024-10-23 12:00:00'>
-            {status === 'Active' && (
-              <>
-                <li className='times' data-days='0'>
-                  {auctionDuration.days}
-                  <span>Days</span>
-                </li>
-                <li className='colon'>:</li>
-                <li className='times' data-hours='0'>
-                  {auctionDuration.hours}
-                  <span>Hours</span>
-                </li>
-                <li className='colon'>:</li>
-                <li className='times' data-minutes='0'>
-                  {auctionDuration.minutes}
-                  <span>Min</span>
-                </li>
-                <li className='colon'>:</li>
-                <li className='times' data-seconds='0'>
-                  {auctionDuration.seconds}
-                  <span>Sec</span>
-                </li>
-              </>
-            )}
+        {snap.dashboardSelected !== 'MyArts' && (
+          <div className='countdown-timer'>
+            <ul data-countdown='2024-10-23 12:00:00'>
+              {status === 'Active' && (
+                <>
+                  <li className='times' data-days='0'>
+                    {auctionDuration.days}
+                    <span>Days</span>
+                  </li>
+                  <li className='colon'>:</li>
+                  <li className='times' data-hours='0'>
+                    {auctionDuration.hours}
+                    <span>Hours</span>
+                  </li>
+                  <li className='colon'>:</li>
+                  <li className='times' data-minutes='0'>
+                    {auctionDuration.minutes}
+                    <span>Min</span>
+                  </li>
+                  <li className='colon'>:</li>
+                  <li className='times' data-seconds='0'>
+                    {auctionDuration.seconds}
+                    <span>Sec</span>
+                  </li>
+                </>
+              )}
 
-            {status === 'Pending' && (
-              <>
-                <li className='times' data-days='0'>
-                  {remainingTime.days}
-                  <span>Days</span>
-                </li>
-                <li className='colon'>:</li>
-                <li className='times' data-hours='0'>
-                  {remainingTime.hours}
-                  <span>Hours</span>
-                </li>
-                <li className='colon'>:</li>
-                <li className='times' data-minutes='0'>
-                  {remainingTime.minutes}
-                  <span>Min</span>
-                </li>
-                <li className='colon'>:</li>
-                <li className='times' data-seconds='0'>
-                  {remainingTime.seconds}
-                  <span>Sec</span>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+              {status === 'Pending' && (
+                <>
+                  <li className='times' data-days='0'>
+                    {remainingTime.days}
+                    <span>Days</span>
+                  </li>
+                  <li className='colon'>:</li>
+                  <li className='times' data-hours='0'>
+                    {remainingTime.hours}
+                    <span>Hours</span>
+                  </li>
+                  <li className='colon'>:</li>
+                  <li className='times' data-minutes='0'>
+                    {remainingTime.minutes}
+                    <span>Min</span>
+                  </li>
+                  <li className='colon'>:</li>
+                  <li className='times' data-seconds='0'>
+                    {remainingTime.seconds}
+                    <span>Sec</span>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className='auction-card-content'>
@@ -188,13 +209,14 @@ const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
             <span>Current Bid at:</span>
             <strong>${art.currentMarketPrice.toLocaleString()}</strong>
           </div>
-          {status === 'Active' ? (
-            <BidButton text='Bid now' link='/' />
-          ) : status === 'Pending' ? (
-            <BidButton text='Notify me' link='/' />
-          ) : (
-            ''
-          )}
+          {showButtons &&
+            (status === 'Active' ? (
+              <BidButton text='Bid now' link='/' />
+            ) : status === 'Pending' ? (
+              <BidButton text='Notify me' link='/' />
+            ) : (
+              ''
+            ))}
         </div>
       </div>
     </div>

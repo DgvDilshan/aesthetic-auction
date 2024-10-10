@@ -9,5 +9,6 @@ export type AuctionGet = {
   startDate: Date;
   endDate: Date;
   artId: number;
+  status: string;
   createdDate: Date;
 };

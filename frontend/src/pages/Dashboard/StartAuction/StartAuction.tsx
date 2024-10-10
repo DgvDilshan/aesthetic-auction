@@ -4,10 +4,10 @@ import Form from '../../../components/ui/Form/Form';
 import Input from '../../../components/ui/Input/Input';
 import { useEffect, useState } from 'react';
 import { Art } from '../../../models/Art';
-import { artGetByStoreApi } from '../../../services/ArtServices';
 import Select from '../../../components/ui/Select/Select';
 import { auctionPostApi } from '../../../services/AuctionServices';
 import PrimaryButton from '../../../components/ui/Buttons/PrimaryButton/PrimaryButton';
+import { getArtsByStore } from '../../../utils/arts';
 
 type Option = {
   value: string;
@@ -19,38 +19,13 @@ const StartAuction = () => {
   const [artValue, setArtValue] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
   const storeId = localStorage.getItem('storeId');
 
   useEffect(() => {
     if (storeId) {
-      getArts(parseInt(storeId), pageNumber, pageSize);
+      getArtsByStore(parseInt(storeId), 1, 10, setArts);
     }
-  }, [storeId, pageNumber, pageSize]);
-
-  const getArts = async (storeId: number, page: number, size: number) => {
-    try {
-      const res = await artGetByStoreApi(storeId, {
-        pageNumber: page,
-        pageSize: size,
-      });
-
-      if (res?.data) {
-        const artsArray = Array.isArray(res.data.arts)
-          ? res.data.arts
-          : [res.data.arts];
-        setArts(artsArray);
-        setTotalPages(Math.ceil(res?.data.totalCount / size));
-      } else {
-        setArts(null);
-      }
-    } catch (error) {
-      console.error(error);
-      setArts(null);
-    }
-  };
+  }, [storeId]);
 
   const artOptions: Option[] = arts
     ? arts.map((art) => ({
@@ -79,7 +54,6 @@ const StartAuction = () => {
     }
 
     if (startDate && endDate) {
-      console.log(startDate);
       auctionPostApi(startDate, endDate, parseInt(artValue));
     } else {
       console.error('Start Date or End Date is null');

@@ -14,8 +14,8 @@ type Props = {
 const NavPills = ({ navpills }: Props) => {
   return (
     <ul className='nav nav-pills'>
-      {navpills.map((navpill) => (
-        <li className='nav-item'>
+      {navpills.map((navpill, index) => (
+        <li className='nav-item' key={index}>
           <BidButton
             type='button'
             text={navpill.text}

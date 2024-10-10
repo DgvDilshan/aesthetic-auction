@@ -44,7 +44,8 @@
   }
 
   .live,
-  .upcoming {
+  .upcoming,
+  .completed {
    color: var(--white-color);
    font-family: var(--font-dmsans);
    font-size: 12px;
@@ -64,6 +65,10 @@
 
   .upcoming {
    background-color: #2092e4;
+  }
+
+  .completed {
+   background-color: #13fc03;
   }
  }
 

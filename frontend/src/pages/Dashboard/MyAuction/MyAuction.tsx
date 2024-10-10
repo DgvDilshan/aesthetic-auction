@@ -1,8 +1,4 @@
-import React from 'react';
-
-type Props = {};
-
-const MyAuction = (props: Props) => {
+const MyAuction = () => {
   return <div>MyAuction</div>;
 };
 

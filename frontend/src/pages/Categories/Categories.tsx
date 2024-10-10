@@ -1,33 +1,18 @@
 import { useEffect, useState } from 'react';
-import { getCategoriesApi } from '../../services/CategoryServices';
 import { CategoryGet } from '../../models/Category';
 import { Col, Container, Row } from 'react-bootstrap';
 import CategoryCard from '../../components/ui/Cards/CategoryCard/CategoryCard';
 import Breadcrumb from '../../components/shared/Breadcrumb/Breadcrumb';
+import { getCategories } from '../../utils/catagories';
 
 const Categories = () => {
-  useEffect(() => {
-    getCategories();
-  }, []);
-
   const [categories, setCategories] = useState<
     CategoryGet[] | null | undefined
   >(null);
 
-  const getCategories = async () => {
-    try {
-      const res = await getCategoriesApi();
-      if (res?.data) {
-        const categoriesArray = Array.isArray(res.data) ? res.data : [res.data];
-        setCategories(categoriesArray);
-      } else {
-        setCategories(null);
-      }
-    } catch (error) {
-      console.error('Error fetching styles:', error);
-      setCategories(null);
-    }
-  };
+  useEffect(() => {
+    getCategories(setCategories);
+  }, []);
 
   return (
     <div>

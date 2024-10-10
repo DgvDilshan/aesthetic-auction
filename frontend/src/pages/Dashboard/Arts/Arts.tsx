@@ -2,9 +2,11 @@ import { sellerArtPills } from '../../../data/sellerArtPills';
 import NavPills from '../../../components/ui/NavPills/NavPills';
 import { useEffect, useState } from 'react';
 import { Art } from '../../../models/Art';
-import { artGetByStoreApi } from '../../../services/ArtServices';
 import { Col, Row } from 'react-bootstrap';
 import AuctionCard from '../../../components/ui/Cards/AuctionCard/AuctionCard';
+import { getArtsByStore } from '../../../utils/arts';
+import Pagination from '../../../components/ui/Pagination/Pagination';
+import PaginationItem from '../../../components/ui/Pagination/PaginationItem';
 
 const Arts = () => {
   const [arts, setArts] = useState<Art[] | null | undefined>(null);
@@ -15,30 +17,18 @@ const Arts = () => {
 
   useEffect(() => {
     if (storeId) {
-      getArts(parseInt(storeId), pageNumber, pageSize);
+      getArtsByStore(
+        parseInt(storeId),
+        pageNumber,
+        pageSize,
+        setArts,
+        setTotalPages
+      );
     }
   }, [storeId, pageNumber, pageSize]);
 
-  const getArts = async (storeId: number, page: number, size: number) => {
-    try {
-      const res = await artGetByStoreApi(storeId, {
-        pageNumber: page,
-        pageSize: size,
-      });
-
-      if (res?.data) {
-        const artsArray = Array.isArray(res.data.arts)
-          ? res.data.arts
-          : [res.data.arts];
-        setArts(artsArray);
-        setTotalPages(Math.ceil(res?.data.totalCount / size));
-      } else {
-        setArts(null);
-      }
-    } catch (error) {
-      console.error(error);
-      setArts(null);
-    }
+  const handlePageChange = (page: number) => {
+    setPageNumber(page);
   };
 
   return (
@@ -52,6 +42,20 @@ const Arts = () => {
           </Col>
         ))}
       </Row>
+
+      <div className='mt-60'>
+        <Pagination>
+          {[...Array(totalPages)].map((_, index) => (
+            <PaginationItem
+              key={index + 1}
+              active={index + 1}
+              handleClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </PaginationItem>
+          ))}
+        </Pagination>
+      </div>
     </div>
   );
 };

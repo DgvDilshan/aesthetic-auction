@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { CategoryGet } from '../../../models/Category';
 import { artPostAPI } from '../../../services/ArtServices';
-import { getCategoriesApi } from '../../../services/CategoryServices';
 import Form from '../../../components/ui/Form/Form';
 import Input from '../../../components/ui/Input/Input';
 import Dropzone from '../../../components/ui/Dropzone/Dropzone';
 import Select from '../../../components/ui/Select/Select';
 import Textarea from '../../../components/ui/Textarea/Textarea';
 import PrimaryButton from '../../../components/ui/Buttons/PrimaryButton/PrimaryButton';
+import { getCategories } from '../../../utils/catagories';
 
 type Option = {
   value: string;
@@ -36,7 +36,7 @@ const AddArt = () => {
   >(null);
 
   useEffect(() => {
-    getCategories();
+    getCategories(setCategories);
   }, []);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
@@ -99,21 +99,6 @@ const AddArt = () => {
   );
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
     useDropzone({ onDrop });
-
-  const getCategories = async () => {
-    try {
-      const res = await getCategoriesApi();
-      if (res?.data) {
-        const categoriesArray = Array.isArray(res.data) ? res.data : [res.data];
-        setCategories(categoriesArray);
-      } else {
-        setCategories(null);
-      }
-    } catch (error) {
-      console.error('Error fetching styles:', error);
-      setCategories(null);
-    }
-  };
 
   const options = [
     {
