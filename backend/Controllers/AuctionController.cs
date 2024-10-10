@@ -64,14 +64,16 @@ namespace backend.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUser([FromRoute] string userId)
         {
-            var auction = await _auctionRepo.GetByUserAsync(userId);
+            var auctions = await _auctionRepo.GetByUserAsync(userId);
 
-            if (auction == null)
+            if (auctions == null || !auctions.Any())
             {
                 return NotFound();
             }
 
-            return Ok(auction.ToAuctionDto());
+            var auctionDtos = auctions.Select(a => a.ToAuctionDto()).ToList();
+
+            return Ok(auctionDtos);
         }
 
         [HttpPost]
@@ -97,7 +99,7 @@ namespace backend.Controllers
 
             var auctionModel = auctionDto.ToCreateAuctionDto(userId);
 
-            if (auctionModel.StartDate < DateTime.Now)
+            if (auctionModel.StartDate.Date < DateTime.Now.Date)
             {
                 return BadRequest("Enter a valid Start Date. The Start Date cannot be in the past.");
             }

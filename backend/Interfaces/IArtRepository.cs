@@ -8,7 +8,7 @@ namespace backend.Interfaces
         Task<List<Art>> GetAllAsync();
         Task<Art?> GetByIdAsync(int id);
         Task<List<Art?>> GetByCategoryAsync(int id);
-        Task<List<Art?>> GetByStoreAsync(int id, QueryObject query);
+        Task<List<Art?>> GetByStoreAsync(int id, QueryObject? query = null);
         Task<Art?> UpdateAsync(int id, Art artModel);
         Task<Art> CreateAsync(Art artModel);
         Task<Art?> DeleteAsync(int id);

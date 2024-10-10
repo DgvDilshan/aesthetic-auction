@@ -10,7 +10,7 @@ namespace backend.Interfaces
         Task<Auction> CreateAsync(Auction auctionModel);
         Task<Auction?> DeleteAsync(int id);
         Task<Auction?> GetByArtId(int id);
-        Task<Auction?> GetByUserAsync(string userId);
+        Task<List<Auction?>> GetByUserAsync(string userId);
         Task CheckAndUpdateStatus(Auction auction);
 
 

@@ -61,7 +61,15 @@ namespace backend.Controllers
         [HttpGet("store/{id}")]
         public async Task<IActionResult> GetByStore([FromRoute] int id,[FromQuery] QueryObject query)
         {
-            var arts = await _artRepo.GetByStoreAsync(id, query);
+            List<Art?> arts;
+
+            if(query != null)
+            {
+                arts = await _artRepo.GetByStoreAsync(id, query);
+            }else
+            {
+                arts = await _artRepo.GetByStoreAsync(id);
+            }
             var artDto = arts.Select(s => s.ToArtDto());
             var totalArtCount = await _artRepo.CountAsync(id);
 

@@ -20,6 +20,12 @@ namespace backend.Repository
                 _context.Auction.Update(auction);
                 await _context.SaveChangesAsync();
             }
+            if (auction.StartDate <= DateTime.Now && auction.Status != "Active")
+            {
+                auction.Status = "Active";
+                _context.Auction.Update(auction);
+                await _context.SaveChangesAsync();
+            }
         }
         public async Task<List<Auction>> GetAllAsync()
         {
@@ -42,16 +48,18 @@ namespace backend.Repository
         {
             return await _context.Auction.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<Auction?> GetByUserAsync(string userId)
+        public async Task<List<Auction?>> GetByUserAsync(string userId)
         {
-            var auction = await _context.Auction.FirstOrDefaultAsync(x => x.UserId == userId);
+            var auctions = await _context.Auction
+    .Where(x => x.UserId == userId)
+    .ToListAsync();
 
-            if (auction != null)
+            foreach (var auction in auctions)
             {
                 await CheckAndUpdateStatus(auction);
-                
             }
-            return auction;
+
+            return auctions;
 
         }
         public async Task<Auction?> UpdateAsync(int id, Auction auctionModel)

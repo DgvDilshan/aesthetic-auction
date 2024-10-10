@@ -34,8 +34,14 @@ namespace backend.Repository
         }
         public async Task<List<Art?>> GetByStoreAsync(int id, QueryObject query)
         {
-            var skipNumber = (query.PageNumber - 1) * query.PageSize;
-            return await _context.Art.Where(c => c.StoreId == id).Skip(skipNumber).Take(query.PageSize).ToListAsync();
+            if(query != null)
+            {
+                var skipNumber = (query.PageNumber - 1) * query.PageSize;
+                return await _context.Art.Where(c => c.StoreId == id).Skip(skipNumber).Take(query.PageSize).ToListAsync();
+            }else
+            {
+                return await _context.Art.Where(c => c.StoreId == id).ToListAsync();
+            }
         }
         public async Task<Art?> UpdateAsync(int id, Art artModel)
         {
