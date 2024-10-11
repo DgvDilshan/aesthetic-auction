@@ -13,10 +13,11 @@ interface AuctionWithArt {
 
 export const getAuctionsByUser = async (
   userId: string,
-  setAuctions: Dispatch<SetStateAction<AuctionWithArt[] | null | undefined>>
+  setAuctions: Dispatch<SetStateAction<AuctionWithArt[] | null | undefined>>,
+  status?: string
 ) => {
   try {
-    const res = await auctionGetByUserApi(userId);
+    const res = await auctionGetByUserApi(userId, status);
 
     if (res?.data) {
       const auctionArray = Array.isArray(res.data) ? res.data : [res.data];

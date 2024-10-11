@@ -1,4 +1,5 @@
 import { IconType } from 'react-icons';
+
 import BidButton from '../Buttons/BidButton/BidButton';
 import './navpills.css';
 
@@ -9,9 +10,11 @@ type NavPills = {
 
 type Props = {
   navpills: NavPills[];
+  active?: number;
+  onPillClick?: (index: number) => void;
 };
 
-const NavPills = ({ navpills }: Props) => {
+const NavPills = ({ navpills, active, onPillClick }: Props) => {
   return (
     <ul className='nav nav-pills'>
       {navpills.map((navpill, index) => (
@@ -19,8 +22,9 @@ const NavPills = ({ navpills }: Props) => {
           <BidButton
             type='button'
             text={navpill.text}
-            variant='active'
+            variant={active === index ? 'active' : 'nonActive'}
             size='lg'
+            onClick={() => onPillClick && onPillClick(index)}
           />
         </li>
       ))}

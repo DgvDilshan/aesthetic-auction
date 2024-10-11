@@ -46,9 +46,18 @@ export const auctionGetApi = async () => {
   }
 };
 
-export const auctionGetByUserApi = async (id: string) => {
+export const auctionGetByUserApi = async (id: string, status?: string) => {
   try {
-    const data = await axios.get<AuctionGet>(`${api}/user/${id}`);
+    const params: { status?: string } = {};
+
+    if (status && status.trim() !== '') {
+      params.status = status;
+    }
+
+    const data = await axios.get<AuctionGet>(`${api}/user/${id}`, {
+      params: params,
+    });
+
     return data;
   } catch (error) {
     handleError(error);

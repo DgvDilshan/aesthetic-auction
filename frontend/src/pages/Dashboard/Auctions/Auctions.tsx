@@ -18,18 +18,35 @@ const Auctions = () => {
   const [auctions, setAuctions] = useState<AuctionWithArt[] | null | undefined>(
     null
   );
+  const [activePill, setActivePill] = useState<number>(0);
+  const [status, setStatus] = useState('');
+
+  const handlePillClick = (index: number) => {
+    setActivePill(index);
+    setStatus(sellerAuctionsPills[index].text);
+  };
 
   const userId = localStorage.getItem('id');
 
   useEffect(() => {
     if (userId) {
-      getAuctionsByUser(userId, setAuctions);
+      if (status !== 'All') {
+        getAuctionsByUser(userId, setAuctions, status);
+      } else {
+        getAuctionsByUser(userId, setAuctions);
+      }
     }
-  }, [userId]);
+  }, [userId, status]);
+
+  console.log(status);
 
   return (
     <div className='my-auction-wrap'>
-      <NavPills navpills={sellerAuctionsPills} />
+      <NavPills
+        navpills={sellerAuctionsPills}
+        active={activePill}
+        onPillClick={handlePillClick}
+      />
 
       <Row>
         {auctions?.map((auction) => (
