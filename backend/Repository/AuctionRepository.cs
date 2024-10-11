@@ -1,4 +1,5 @@
 ﻿using backend.Data;
+using backend.Helpers;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -48,11 +49,16 @@ namespace backend.Repository
         {
             return await _context.Auction.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<List<Auction?>> GetByUserAsync(string userId)
+        public async Task<List<Auction>> GetByUserAsync(string userId, AuctionQueryObject query)
         {
-            var auctions = await _context.Auction
-    .Where(x => x.UserId == userId)
-    .ToListAsync();
+            var auctionsQuery = _context.Auction.Where(x => x.UserId == userId);
+
+            if (!string.IsNullOrWhiteSpace(query.Status))
+            {
+                auctionsQuery = auctionsQuery.Where(x => x.Status == query.Status);
+            }
+
+            var auctions = await auctionsQuery.ToListAsync();
 
             foreach (var auction in auctions)
             {
@@ -60,6 +66,7 @@ namespace backend.Repository
             }
 
             return auctions;
+
 
         }
         public async Task<Auction?> UpdateAsync(int id, Auction auctionModel)

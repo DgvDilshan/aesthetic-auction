@@ -1,4 +1,5 @@
-﻿using backend.Models;
+﻿using backend.Helpers;
+using backend.Models;
 
 namespace backend.Interfaces
 {
@@ -10,9 +11,7 @@ namespace backend.Interfaces
         Task<Auction> CreateAsync(Auction auctionModel);
         Task<Auction?> DeleteAsync(int id);
         Task<Auction?> GetByArtId(int id);
-        Task<List<Auction?>> GetByUserAsync(string userId);
         Task CheckAndUpdateStatus(Auction auction);
-
-
+        Task<List<Auction>> GetByUserAsync(string userId, AuctionQueryObject? queryObject = null);
     }
 }

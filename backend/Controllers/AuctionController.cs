@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.Dto.Auction;
 using backend.Extensions;
+using backend.Helpers;
 using backend.Interfaces;
 using backend.Mappers;
 using backend.Models;
@@ -62,18 +63,28 @@ namespace backend.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetByUser([FromRoute] string userId)
+        public async Task<IActionResult> GetByUser([FromRoute] string userId, [FromQuery] AuctionQueryObject query)
         {
-            var auctions = await _auctionRepo.GetByUserAsync(userId);
+            List<Auction> auctions;
+
+            if (query != null)
+            {
+                auctions = await _auctionRepo.GetByUserAsync(userId, query);
+            }
+            else
+            {
+                auctions = await _auctionRepo.GetByUserAsync(userId);
+            }
+
 
             if (auctions == null || !auctions.Any())
             {
                 return NotFound();
             }
 
-            var auctionDtos = auctions.Select(a => a.ToAuctionDto()).ToList();
+            var auctionDto = auctions.Select(a => a.ToAuctionDto()).ToList();
 
-            return Ok(auctionDtos);
+            return Ok(auctionDto);
         }
 
         [HttpPost]
