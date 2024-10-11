@@ -88,7 +88,7 @@ const Navbar = () => {
                 <a href='/'>Home</a>
               </li>
               <li>
-                <a href=''>Auction</a>
+                <a href='/auctions'>Auction</a>
               </li>
               <li>
                 <a href=''>Contact</a>

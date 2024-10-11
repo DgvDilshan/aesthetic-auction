@@ -38,8 +38,6 @@ const Auctions = () => {
     }
   }, [userId, status]);
 
-  console.log(status);
-
   return (
     <div className='my-auction-wrap'>
       <NavPills

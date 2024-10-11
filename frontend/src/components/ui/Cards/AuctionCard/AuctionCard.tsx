@@ -14,6 +14,7 @@ import './AuctionCard.css';
 import state from '../../../../store';
 
 type Art = {
+  id: number;
   title: string;
   image: string;
   lot: string;
@@ -25,9 +26,16 @@ type AuctionCardProps = {
   startDate?: string;
   endDate?: string;
   status?: string;
+  auctionId?: number;
 };
 
-const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
+const AuctionCard = ({
+  art,
+  status,
+  startDate,
+  endDate,
+  auctionId,
+}: AuctionCardProps) => {
   const location = useLocation();
   const snap = useSnapshot(state);
 
@@ -106,7 +114,7 @@ const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
   return (
     <div className='auction-card'>
       <div className='auction-card-wrapper'>
-        <a href='' className='card-image'>
+        <a href={`auction-details?id=${auctionId}`} className='card-image'>
           <img src={art.image} alt='auc' />
         </a>
 
@@ -211,9 +219,15 @@ const AuctionCard = ({ art, status, startDate, endDate }: AuctionCardProps) => {
           </div>
           {showButtons &&
             (status === 'Active' ? (
-              <BidButton text='Bid now' link='/' />
+              <BidButton
+                text='Bid now'
+                link={`auction-details?id=${auctionId}`}
+              />
             ) : status === 'Pending' ? (
-              <BidButton text='Notify me' link='/' />
+              <BidButton
+                text='Notify me'
+                link={`auction-details?id=${auctionId}`}
+              />
             ) : (
               ''
             ))}

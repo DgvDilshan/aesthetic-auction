@@ -16,12 +16,12 @@ export type Art = {
   title: string;
   image: string;
   currentMarketPrice: number;
-  Condition: string;
+  condition: string;
   isFramed: boolean;
-  Height: number;
-  Width: number;
-  CategoryId: number;
-  CreatedBy: number;
+  height: number;
+  width: number;
+  categoryId: number;
+  createdBy: number;
 };
 
 export type ArtGet = {

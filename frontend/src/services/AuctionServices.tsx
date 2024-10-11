@@ -63,3 +63,12 @@ export const auctionGetByUserApi = async (id: string, status?: string) => {
     handleError(error);
   }
 };
+
+export const auctionGetByIdApi = async (id: number) => {
+  try {
+    const data = await axios.get<AuctionGet>(`${api}/${id}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};

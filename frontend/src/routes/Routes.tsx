@@ -10,6 +10,8 @@ import CreateStore from '../pages/CreateStore/CreateStore';
 import Sellers from '../pages/Sellers/Sellers';
 import SellerDetails from '../pages/Sellers/SellerDetails';
 import Categories from '../pages/Categories/Categories';
+import Auctions from '../pages/Auctions/Auctions';
+import AuctionDetails from '../pages/Auctions/AuctionDetails';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,8 @@ export const router = createBrowserRouter([
       { path: 'sellers', element: <Sellers /> },
       { path: 'seller-details', element: <SellerDetails /> },
       { path: 'categories', element: <Categories /> },
+      { path: 'auctions', element: <Auctions /> },
+      { path: 'auction-details', element: <AuctionDetails /> },
       {
         path: 'dashboard',
         element: (
