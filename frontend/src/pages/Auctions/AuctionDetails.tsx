@@ -45,6 +45,7 @@ const AuctionDetails = () => {
       </Breadcrumb>
 
       <AuctionDetailsWrapper
+        id={auction && auction.length > 0 ? auction[0].id : undefined}
         art={auction && auction.length > 0 ? auction[0].art : null}
         startDate={auction && auction.length > 0 ? auction[0].startDate : ''}
         endDate={auction && auction.length > 0 ? auction[0].endDate : ''}

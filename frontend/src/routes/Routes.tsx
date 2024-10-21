@@ -12,6 +12,10 @@ import SellerDetails from '../pages/Sellers/SellerDetails';
 import Categories from '../pages/Categories/Categories';
 import Auctions from '../pages/Auctions/Auctions';
 import AuctionDetails from '../pages/Auctions/AuctionDetails';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +30,14 @@ export const router = createBrowserRouter([
       { path: 'seller-details', element: <SellerDetails /> },
       { path: 'categories', element: <Categories /> },
       { path: 'auctions', element: <Auctions /> },
-      { path: 'auction-details', element: <AuctionDetails /> },
+      {
+        path: 'auction-details',
+        element: (
+          <Elements stripe={stripePromise}>
+            <AuctionDetails />
+          </Elements>
+        ),
+      },
       {
         path: 'dashboard',
         element: (

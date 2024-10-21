@@ -103,7 +103,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-dmsans);
+  font-family: var(--font-dmsans) !important;
 }
 
 a {

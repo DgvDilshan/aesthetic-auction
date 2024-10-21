@@ -1,21 +1,33 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { RiAddLine, RiSubtractLine } from '@remixicon/react';
+import { loadStripe } from '@stripe/stripe-js';
 
 import { Art } from '../../../models/Art';
 import './auctiondetails.css';
 import Input from '../../ui/Input/Input';
 import PrimaryButton from '../../ui/Buttons/PrimaryButton/PrimaryButton';
+import { CardElement, useElements } from '@stripe/react-stripe-js';
 
 type Props = {
+  id: number | undefined;
   art: Art | null;
   startDate?: string;
   endDate?: string;
   status?: string;
 };
 
-const AuctionDetailsWrapper = ({ art, startDate, endDate, status }: Props) => {
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+const AuctionDetailsWrapper = ({
+  id,
+  art,
+  startDate,
+  endDate,
+  status,
+}: Props) => {
   const [bidValue, setBidValue] = useState(0);
+  const elements = useElements();
 
   const [remainingTime, setRemainingTime] = useState({
     days: 0,
@@ -110,6 +122,61 @@ const AuctionDetailsWrapper = ({ art, startDate, endDate, status }: Props) => {
       setBidValue(0);
     }
   };
+
+  const handleSubmit = async () => {
+    const stripe = await stripePromise;
+    const token = localStorage.getItem('token');
+
+    const response = await fetch('http://localhost:5256/backend/bid', {
+      method: 'POST',
+      body: JSON.stringify({
+        amount: bidValue,
+        auctionId: id,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Error:', errorData.error);
+      return;
+    }
+
+    const { clientSecret } = await response.json();
+
+    if (!stripe) {
+      console.error('Stripe is not initialized');
+      return;
+    }
+
+    const cardElement = elements?.getElement(CardElement);
+
+    if (!cardElement) {
+      console.error('CardElement is not found');
+      return;
+    }
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: 'Cardholder Name',
+          email: 'cardholder@example.com',
+        },
+      },
+    });
+
+    if (result.error) {
+      console.error('Payment failed:', result.error);
+    } else {
+      console.log('Payment succeeded!');
+    }
+  };
+
   return (
     <div className='auction-details mb-60 pt-60'>
       <Container fluid>
@@ -279,7 +346,14 @@ const AuctionDetailsWrapper = ({ art, startDate, endDate, status }: Props) => {
                         <RiAddLine />
                       </button>
                     </div>
-                    <PrimaryButton text='Place Bid' variant='white' />
+                    <form onSubmit={handleSubmit}>
+                      <CardElement />
+                      <PrimaryButton
+                        text='Place Bid'
+                        variant='white'
+                        type='submit'
+                      />
+                    </form>
                   </div>
                 </div>
               )}
