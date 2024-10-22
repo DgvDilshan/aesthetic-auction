@@ -28,12 +28,17 @@
   width: 0;
   height: 0;
   border-radius: 36px;
-  background-color: var(--primary-color);
   transition: all .6s;
   transform: translate(-50%, -50%);
   z-index: -1;
   top: 40.5px;
   left: 84.2344px;
+ }
+}
+
+.primary-btn.default {
+ span {
+  background-color: var(--primary-color);
  }
 }
 
@@ -87,4 +92,27 @@
  font-size: 12px !important;
  color: rgba(34, 34, 34, .5);
  padding: 8px 16px;
+}
+
+.full-white {
+ border-color: var(--white-color);
+ color: var(--white-color);
+ background: transparent !important;
+
+ svg {
+  fill: var(--white-color);
+ }
+}
+
+.full-white:hover {
+ color: rgba(34, 34, 34, .5);
+ background-color: var(--white-color) !important;
+
+ span {
+  background-color: var(--white-color) !important;
+ }
+
+ svg {
+  fill: rgba(34, 34, 34, .5);
+ }
 }

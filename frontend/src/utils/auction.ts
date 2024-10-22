@@ -5,6 +5,7 @@ import {
   auctionGetApi,
   auctionGetByIdApi,
   auctionGetByUserApi,
+  auctionGetLatesApi,
 } from '../services/AuctionServices';
 
 interface AuctionWithArt {
@@ -118,5 +119,39 @@ export const getAuctionsById = async (
   } catch (error) {
     console.error(error);
     setAuction(null);
+  }
+};
+
+export const getLatestAuction = async (
+  limit: number | null,
+  setAuctions: Dispatch<SetStateAction<AuctionWithArt[] | null | undefined>>
+) => {
+  try {
+    const res = await auctionGetLatesApi(limit);
+
+    if (res?.data) {
+      const auctionArray = Array.isArray(res.data) ? res.data : [res.data];
+
+      const artsData = await Promise.all(
+        auctionArray.map(async (auction) => {
+          try {
+            const artRes = await artGetByIdApi(auction.artId);
+            return { ...auction, art: artRes?.data || null };
+          } catch (error) {
+            console.error('Error fetching art data:', error);
+            return { ...auction, art: null };
+          }
+        })
+      );
+
+      const validAuctions = artsData.filter(
+        (item): item is AuctionWithArt & { art: Art } => item.art !== null
+      );
+
+      setAuctions(validAuctions);
+    }
+  } catch (error) {
+    console.log(error);
+    setAuctions(null);
   }
 };

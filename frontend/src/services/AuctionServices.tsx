@@ -72,3 +72,16 @@ export const auctionGetByIdApi = async (id: number) => {
     handleError(error);
   }
 };
+
+export const auctionGetLatesApi = async (limit: number | null) => {
+  try {
+    const data = await axios.get<AuctionGet>(`${api}/latest`, {
+      params: {
+        limit: limit,
+      },
+    });
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};

@@ -583,3 +583,17 @@ a {
   font-weight: 600;
   padding-top: 10px;
 }
+
+.section-title3 h2 {
+  color: var(--title-color);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.2;
+  font-family: var(--font-dmsans);
+  margin-bottom: 0;
+}
+
+.text-white {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+}

@@ -16,7 +16,7 @@ const CategoryCard = ({ category }: Props) => {
   return (
     <div className='category-card4 two'>
       <div className='icon'>
-        <img src={`${icon}`} alt='' />
+        <img src={icon} alt={categoryName} />
       </div>
       <div className='content'>
         <h5>
@@ -25,7 +25,7 @@ const CategoryCard = ({ category }: Props) => {
         <span>45,533 Item</span>
       </div>
       <div className='category-img'>
-        <img src={`${image}`} alt='' />
+        <img src={image} alt={categoryName} />
       </div>
     </div>
   );
