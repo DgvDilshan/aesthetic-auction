@@ -59,7 +59,7 @@ const Categories = () => {
         swiper.off('reachEnd', updateNavigation);
       };
     }
-  });
+  }, []);
 
   return (
     <div className='home4-category-section mb-120'>
@@ -77,6 +77,7 @@ const Categories = () => {
             <PrimaryButton
               variant='full-white'
               text='view all categories'
+              link='/categories'
               icon={<RiCircleFill size={16} />}
             />
           </div>
