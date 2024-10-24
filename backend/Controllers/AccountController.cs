@@ -92,5 +92,29 @@ namespace backend.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            try
+            {
+                var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (user == null) return NotFound("User not found");
+
+                return Ok(new NewUserDto
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Token = _tokenService.CreateToken(user)
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

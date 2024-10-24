@@ -84,5 +84,19 @@ namespace backend.Repository
             return await _context.Art.CountAsync(c => c.StoreId == id);
         }
 
+        public async Task<Art?> UpdateCurrentMarketPriceAsync(int id, decimal amount)
+        {
+            var existingArt = await _context.Art.FindAsync(id);
+
+            if (existingArt == null)
+            {
+                return null;
+            }
+
+            existingArt.CurrentMarketPrice = amount;
+            await _context.SaveChangesAsync();
+            return existingArt;
+        }
+
     }
 }

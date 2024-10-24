@@ -37,7 +37,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id, [FromQuery] QueryObject query)
         {
            var auction = await _auctionRepo.GetByIdAsync(id);
 
@@ -63,7 +63,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetByUser([FromRoute] string userId, [FromQuery] AuctionQueryObject query)
+        public async Task<IActionResult> GetByUser([FromRoute] string userId, [FromQuery] QueryObject query)
         {
             List<Auction> auctions;
 
@@ -160,5 +160,15 @@ namespace backend.Controllers
             }
             return Ok(auctionModel.ToAuctionDto());
        }
+
+        [HttpGet("latest")]
+        public async Task<IActionResult> GetLatest([FromQuery] int? limit = null)
+        {
+            var auctions = await _auctionRepo.GetLatestAsync(limit);
+
+            var auctionDto = auctions.Select(s => s.ToAuctionDto());
+
+            return Ok(auctionDto);
+        }
    }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins",
-        builder => builder.WithOrigins("http://localhost:5173","http://localhost:5174")
+        builder => builder.WithOrigins("http://localhost:5173","http://localhost:5174", "https://checkout.stripe.com")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials()); 
@@ -64,6 +65,7 @@ builder.Services.AddScoped<IArtRepository, ArtRepository>();
 builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IBidRepository, BidRepository>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -98,7 +100,9 @@ builder.Services.AddAuthentication(options =>
 
 });
 
-builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+builder.Services.AddScoped<ITokenService, backend.Service.TokenService>();
 
 
 var app = builder.Build();
@@ -121,5 +125,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 
 app.Run();

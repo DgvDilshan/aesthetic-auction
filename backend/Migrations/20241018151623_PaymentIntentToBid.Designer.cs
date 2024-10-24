@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,11 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241018151623_PaymentIntentToBid")]
+    partial class PaymentIntentToBid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "92b5e488-3a33-404c-86b2-369b863a1675",
+                            Id = "b3931d03-0326-4ca7-8f6d-2d3ddcd78fb1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8d69a86b-1c23-41e0-8427-92afd10365df",
+                            Id = "36299744-a277-4505-a752-154941075781",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -282,9 +285,6 @@ namespace backend.Migrations
 
                     b.Property<DateTime>("BidDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsPaymentCaptured")
-                        .HasColumnType("bit");
 
                     b.Property<string>("PaymentIntentId")
                         .IsRequired()

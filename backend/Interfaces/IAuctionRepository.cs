@@ -12,6 +12,8 @@ namespace backend.Interfaces
         Task<Auction?> DeleteAsync(int id);
         Task<Auction?> GetByArtId(int id);
         Task CheckAndUpdateStatus(Auction auction);
-        Task<List<Auction>> GetByUserAsync(string userId, AuctionQueryObject? queryObject = null);
+        Task<List<Auction>> GetByUserAsync(string userId, QueryObject? queryObject = null);
+        Task<List<Auction>> GetLatestAsync(int? limit = null);
+
     }
 }

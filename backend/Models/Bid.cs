@@ -19,7 +19,8 @@ namespace backend.Models
         [ForeignKey("Auction")]
         public int AuctionId { get; set; }
         public Auction Auction { get; set; }
+        public string PaymentIntentId { get; set; }
         public DateTime BidDate { get; set; } = DateTime.Now;
-
+        public bool IsPaymentCaptured { get; internal set; } = false;
     }
 }

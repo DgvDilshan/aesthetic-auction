@@ -13,5 +13,6 @@ namespace backend.Interfaces
         Task<Art> CreateAsync(Art artModel);
         Task<Art?> DeleteAsync(int id);
         Task<int> CountAsync(int id);
+        Task<Art?> UpdateCurrentMarketPriceAsync(int id, decimal amount);
     }
 }

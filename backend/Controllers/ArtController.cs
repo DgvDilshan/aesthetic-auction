@@ -92,7 +92,9 @@ namespace backend.Controllers
                 return NotFound("User cannot be found");
             }
 
-            var store = await _context.Store.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            var store = await _context.Store
+                .Where(x => x.UserId.ToLower() == user.Id.ToLower())
+                .FirstOrDefaultAsync();
 
             if (store == null)
             {

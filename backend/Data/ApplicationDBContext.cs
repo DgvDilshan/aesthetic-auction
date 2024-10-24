@@ -74,6 +74,7 @@ namespace backend.Data
         public DbSet<Art> Art { get; set; }
         public DbSet<Auction> Auction { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<Bid> Bid { get; set; }
 
 
     }
