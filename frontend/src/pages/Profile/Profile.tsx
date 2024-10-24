@@ -21,14 +21,14 @@ const Profile = () => {
 
   const snap = useSnapshot(state);
 
-  const hasStore = localStorage.getItem('hasStore');
+  const storeId = localStorage.getItem('storeId');
 
   const handleLogout = () => {
     logout();
   };
 
   const renderComponent = () => {
-    if (hasStore === '0' && snap.switchToSeller === false) {
+    if (storeId === '0' && snap.switchToSeller === false) {
       switch (snap.dashboardSelected) {
         case 'Dashboard':
           return <Dashboard />;
@@ -82,7 +82,7 @@ const Profile = () => {
 
       <div className='dashboard-section mb-60 pt-60'>
         <Container>
-          {hasStore === '1' && snap.switchToSeller == false ? (
+          {storeId != '0' && snap.switchToSeller == false ? (
             <BidButton
               text='Switch to Seller'
               size='lg'

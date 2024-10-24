@@ -2,12 +2,17 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { RiAddLine, RiSubtractLine } from '@remixicon/react';
 import { loadStripe } from '@stripe/stripe-js';
+import { toast } from 'react-toastify';
+import { CardElement, useElements } from '@stripe/react-stripe-js';
 
 import { Art } from '../../../models/Art';
 import './auctiondetails.css';
 import Input from '../../ui/Input/Input';
 import PrimaryButton from '../../ui/Buttons/PrimaryButton/PrimaryButton';
-import { CardElement, useElements } from '@stripe/react-stripe-js';
+import { placeBidApi } from '../../../services/BidServices';
+import BiddingSummaryAuction from '../../ui/Tables/BiddingSummaryAuction';
+import { UserProfileToken } from '../../../models/User';
+import { getBidsByAuction } from '../../../utils/bid';
 
 type Props = {
   id: number | undefined;
@@ -17,7 +22,13 @@ type Props = {
   status?: string;
 };
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+interface BidsWithUser {
+  amount: number;
+  userId: string;
+  user: UserProfileToken;
+}
+
+// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const AuctionDetailsWrapper = ({
   id,
@@ -27,7 +38,6 @@ const AuctionDetailsWrapper = ({
   status,
 }: Props) => {
   const [bidValue, setBidValue] = useState(0);
-  const elements = useElements();
 
   const [remainingTime, setRemainingTime] = useState({
     days: 0,
@@ -42,6 +52,7 @@ const AuctionDetailsWrapper = ({
     minutes: 0,
     seconds: 0,
   });
+  const [bids, setBids] = useState<BidsWithUser[] | null | undefined>(null);
 
   useEffect(() => {
     if (!startDate || !endDate) return;
@@ -123,59 +134,29 @@ const AuctionDetailsWrapper = ({
     }
   };
 
-  const handleSubmit = async () => {
-    const stripe = await stripePromise;
-    const token = localStorage.getItem('token');
-
-    const response = await fetch('http://localhost:5256/backend/bid', {
-      method: 'POST',
-      body: JSON.stringify({
-        amount: bidValue,
-        auctionId: id,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Error:', errorData.error);
-      return;
-    }
-
-    const { clientSecret } = await response.json();
-
-    if (!stripe) {
-      console.error('Stripe is not initialized');
-      return;
-    }
-
-    const cardElement = elements?.getElement(CardElement);
-
-    if (!cardElement) {
-      console.error('CardElement is not found');
-      return;
-    }
-
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-        billing_details: {
-          name: 'Cardholder Name',
-          email: 'cardholder@example.com',
-        },
-      },
-    });
-
-    if (result.error) {
-      console.error('Payment failed:', result.error);
-    } else {
-      console.log('Payment succeeded!');
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (id) {
+      placeBidApi(id, bidValue)
+        .then((res) => {
+          if (res) {
+            toast.success('Bid Place successfully');
+            window.location.reload();
+          }
+        })
+        .catch((e) => {
+          toast.warning(e);
+        });
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      getBidsByAuction(id, setBids);
+    }
+  }, [id]);
+
+  console.log(bids);
 
   return (
     <div className='auction-details mb-60 pt-60'>
@@ -191,6 +172,8 @@ const AuctionDetailsWrapper = ({
                 </div>
               </div>
             </div>
+
+            {bids && <BiddingSummaryAuction bids={bids} />}
           </Col>
           <Col xl={5}>
             <div className='auction-details-content'>
@@ -347,7 +330,6 @@ const AuctionDetailsWrapper = ({
                       </button>
                     </div>
                     <form onSubmit={handleSubmit}>
-                      <CardElement />
                       <PrimaryButton
                         text='Place Bid'
                         variant='white'

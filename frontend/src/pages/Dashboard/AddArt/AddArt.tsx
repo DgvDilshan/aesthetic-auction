@@ -115,15 +115,15 @@ const AddArt = () => {
       }))
     : [];
 
-  const storeId = localStorage.getItem('storeId');
+  const hasStore = localStorage.getItem('hasStore');
 
   useEffect(() => {
-    if (storeId === '0' && !toastShown) {
+    if (hasStore === '0' && !toastShown) {
       toast.warning('You must create a store first');
       navigate('/create-store');
       setToastShown(true);
     }
-  }, [storeId, toastShown, navigate]);
+  }, [hasStore, toastShown, navigate]);
 
   return (
     <Row style={{ width: '100%' }}>

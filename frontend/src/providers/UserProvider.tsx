@@ -117,6 +117,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('id');
+    localStorage.removeItem('hasStore');
     localStorage.removeItem('storeId');
     setUser(null);
     setId('');

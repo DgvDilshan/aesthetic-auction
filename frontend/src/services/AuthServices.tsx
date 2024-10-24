@@ -34,3 +34,12 @@ export const registerAPI = async (
     handleError(error);
   }
 };
+
+export const getUserByIdApi = async (userId: string) => {
+  try {
+    const data = await axios.get<UserProfileToken>(`${api}account/${userId}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
