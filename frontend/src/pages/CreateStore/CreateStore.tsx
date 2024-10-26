@@ -64,21 +64,15 @@ const CreateStore = () => {
       formDataProfile.append('upload_preset', 'aesthetic-auction');
       formDataProfile.append('api_key', import.meta.env.VITE_CLOUDNARY_API_KEY);
 
-      const resultCover = await fetch(
-        'https://api.cloudinary.com/v1_1/dsseoknzm/image/upload',
-        {
-          method: 'POST',
-          body: formDataCover,
-        }
-      ).then((r) => r.json());
+      const resultCover = await fetch('', {
+        method: 'POST',
+        body: formDataCover,
+      }).then((r) => r.json());
 
-      const resultProfile = await fetch(
-        'https://api.cloudinary.com/v1_1/dsseoknzm/image/upload',
-        {
-          method: 'POST',
-          body: formDataProfile,
-        }
-      ).then((r) => r.json());
+      const resultProfile = await fetch('', {
+        method: 'POST',
+        body: formDataProfile,
+      }).then((r) => r.json());
 
       storePostApi(
         name,
